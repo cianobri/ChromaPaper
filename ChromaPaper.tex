@@ -1,0 +1,108 @@
+% -----------------------------------------------
+% Template for ISMIR 2014
+% (based on earlier ISMIR templates)
+% -----------------------------------------------
+
+\documentclass{article}
+\usepackage{ismir2014,amsmath,cite}
+\usepackage{graphicx}
+
+% Title.
+% ------
+\title{Genre-specific Key Profiles}
+
+% Single address
+% To use with only one author or several with the same address
+% ---------------
+%\oneauthor
+% {Names should be omitted for double-blind reviewing}
+% {Affiliations should be omitted for double-blind reviewing}
+
+% Two addresses
+% --------------
+%\twoauthors
+%  {First author} {School \\ Department}
+%  {Second author} {Company \\ Address}
+
+% Three addresses
+% --------------
+\threeauthors
+  {First author} {Affiliation1 \\ {\tt author1@ismir.edu}}
+  {Second author} {\bf Retain these fake authors in\\\bf submission to preserve the formatting}
+  {Third author} {Affiliation3 \\ {\tt author3@ismir.edu}}
+
+% Four addresses
+% --------------
+%\fourauthors
+%  {First author} {Affiliation1 \\ {\tt author1@ismir.edu}}
+%  {Second author}{Affiliation2 \\ {\tt author2@ismir.edu}}
+%  {Third author} {Affiliation3 \\ {\tt author3@ismir.edu}}
+%  {Fourth author} {Affiliation4 \\ {\tt author4@ismir.edu}}
+
+\begin{document}
+%
+\maketitle
+%
+\begin{abstract}
+Pitch chroma are a popular feature for many MIR tasks. Using the GTZAN data set we investigate the distributions of pitch chroma for 9 different genres, the degree to
+which these genres can be identified using these distributions and different strategies for achieving key-independence; namely transposition of the chroma according to its maximum value and 12-point FFT. We find that combining pitch chroma with commonly used MFCCs can lead to small increase in classification accuracy using a Support Vector Machine. Furthermore these results show that the imposing key-independence has a surprisingly small affect on performance.
+\end{abstract}
+%
+\section{Introduction}\label{sec:introduction}
+Musical genre recognition is a well studied field in MIR [*ref]. As with any classification task, the feature used to summarize tracks is an extremely important concern. Previous work in this area has shown that timbral features, particularly Mel Frequency Spectrum Coefficients, are especially suited to the task of predicting genre. While MFCCs are suited to picking up on instrumental and timbral difference between genres, some work has shown that they are not totally independent of harmonic or tonal information [*ref li]. Here we investigate the extent to which tonal information can be used to discern genres y examining the distributions of pitch chroma within each of 9 different genres. First we examine the overall distribution of keys for each genre. Next different methods for transposing pitch chroma to a key-independent representation are introduced and we look at the chroma distributions using chroma box plots, inter-genre distance and mulch-dimensional scaling. In the final section we test the degree to which the chroma distribution separate gen-res by performing classification with an SVM using chroma and combined chroma/MFCC features.
+
+\section{Data set}\label{sec:dataset}
+The data set used was the GTZAN collection, which is popular for genre classification tasks. It consists of a collection of 1000 tracks divided into ten genres: Blues, Classical, Rock, Reggae, Pop, Metal, Rock, Jazz, Country and Hip Hop. First we examine the general layout of the data set, specifically with respect to the key distributions within genres. Key annotations for each track were produced manually and because of the difficulty of unambiguously estimating the key several were discarded, including basically all of the Classical genre.
+
+A similar analysis was performed by Li [*ref], an examination of which reveals disagreements for several tracks – for example this analysis provided key labels for 98 tracks as opposed to 31 in the case of Li for the Blues genre.  The most disagreements were seen in the Disco genre (21) and the fewest in Country (just 1 difference). The distribution of keys in each genre proved unsurprising: Jazz tracks tend to be clustered around flat keys which tend to be favored by trumpet and saxophone players. Blues are predominantly minor and mostly in the keys of G, E and B-flat. Country was almost exclusively in major keys which are convenient for the guitar; C-major, G-major, D-major, A-major and E-major. The majority of Metal tracks are in either A-minor or E-minor, which are again well-suited to the electric guitar and bass and cor-respond to the two lowest open strings.
+%\begin{figure}
+    %\includegraphics[scale=1]{graph/keydist}
+	%\caption{Key distribution per genre}
+	%\label{fig:KeyDistributionPerGenre}
+%\end{figure}
+
+\section{Pitch chroma and key dependence}\label{sec:pitch_chroma}
+
+\subsection{Pitch Chroma Extraction}\label{subsec:pc_extract}
+Pitch chroma are a commonly used feature for Music Information Retrieval [*ref] which show the relative amount of intensity in each pitch class or note by grouping the magnitude of frequency bands of the Fourier Transform across multiple octaves. Each track in the labeled collection was down-sampled to 10kHz and pitch chroma vectors were extracted block-wise over a three octave range, starting from C = 130.8 Hz. Pitch chroma were then normalized using the 1-norm:                     
+	 equation?
+After extracting pitch chroma for each block we can also average them over whole tracks to obtain an “averaged pitch chroma” for each track, sometimes called a Pitch Histogram [**ref]. After averaging using the median for each chroma-bin each song is then represented by a single 12-dimensional chroma vector.
+
+
+\subsection{Key Independence}
+A problem with using a pitch chroma approach is that the overall tonality of each song may dominate any be-tween-genre differences; because the distribution of major and minor keys are not the same for each genre, songs might be classified according to their key using this method. For example pitch chroma extracted from minor tracks would be classified as Metal, since the averaged pitch chroma for Metal would be obtained by averaging pitch chroma extracted from predominantly minor tracks. This is an inherent problem in using pitch chroma as op-posed to more often used timbral features like MFCCs and in order to account for this we processed major and minor tracks separately. Another consideration revealed in the analysis of the data set is that the the key-labels are not uniformly distributed within each key. For exam-ple the majority of songs in the keys of A and E-minor are in the Rock and Metal genres. To account for this we investigated several techniques for obtaining a key-independent representation
+
+\subsubsection{Transposition by Max}
+First the index of the maximum value of the chroma across all bins is found. Then, the chroma is transposed using a circular shift such that the index of the maximum is equal to one.
+
+\subsubsection{Fourier Transform}
+This method involves the use of the Fourier transform. Firstly, for a given pitch chroma vector the mean over all bins is calculated and is subtracted from each component. We then take the magnitude of each Fourier coefficient. Because transpositions in the chroma are encoded in the phase component, by throwing them out this quantity will be independent of transposition (and therefor of key).
+
+\subsubsection{Transposition by Ground Truth}
+The ground truth labels for each song is used to transpose each chroma using a circular shift so that the bin corresponding to the key label is in the first position (i.e. for a song in the key of A-major/-minor, the chroma is cyclically shifted so that the bin for the pitch class A is in the first index).
+
+\section{Box plots and genre distances}
+The key-sorted songs in each genre were averaged to get a mean chroma for each track. For each genre we further take the median over all the songs to arrive at the final key-independent chroma for that genre. We also include the Major and Minor profiles found in [*ref] and [*ref] for comparison.
+
+\subsection{Box plots}
+For each genre box plots were formed using the previously calculated median per chroma bin. For each plot the horizontal line represents the median for that bin and the boxes the region given by the second and third quartile ranges (outliers have been omitted for clarity). Here we have plotted the six most populated genres for both major and minor. Overall each genre roughly exhibits the expected major pattern with some exceptions, for example,  Jazz. The Jazz distribution is noticeably more flat than other genres --- it doesn't exhibit the same peakiness at the root and fifth for example and the relative ratios of each interval are noticeably more uniform. This agrees with the classification results of Section 5, where Jazz was one of the least confused major genres.
+
+For the minor examples, the distributions look much more uniform with relatively more mass in non-diatonic bins --- for example the flat-second (C\#) and-sharp fifth (G\#) genres.
+
+
+\subsection{Genre distances}
+To see how distinct genres are with respect to their pitch chroma, distance between each genre chroma were calculated using Euclidean, Manhattan and KL-Divergence. The following figures show these between-genre distances using Manhattan distance. Genres for which the number of examples were less than 30 are grayed out. The labels are as follows: B is blues, C country, D disco, H hip-hop, J jazz, M metal, P pop, Rg Reggae, Rk is rock, K is the Krumhansl key profile and T the Temperley profile \cite{temperley_tonal_2007}. Some facts revealed are that according to this metric, the most mutually distinct genres when considering Major tracks are Country and Jazz while the the most similar are Rock and Pop. For Minor tracks, Reggae and Pop are most similar while Reggae and Rock are the most distinct.
+
+\section{Classification}
+Here we investigate the use of pitch chroma for the pur-poses of genre classification. Multi-class classification was performed using a Support Vector Machine, specifically the LibSVM implementation in MATLAB[*ref]. The SVM hyper-parameters (C, γ) representing the margin and kernel widths were tuned using a grid-search and 5-fold cross validation on a separate stratified split of the data. Best performance was achieved using a non-linear SVM with Radial Basis Function kernel.	                 	We tested using (i) the whole key-labeled data set and (ii) the major/minor subsets individually, in order to control for the differences in major/minor distribution between keys. 10-fold cross validation  accuracy was calculated using raw pitch chroma, max-sorted pitch  chroma, Fourier pitch chroma and ground truth sorted pitch chroma. We compare the results to commonly used MFCC features as well as a combination of MFCC and chroma features. MFCC features were calculated as fol-lows: for each block we compute 12 MFCC coefficients, then take the mean and standard deviation over the whole song. These features are then concatenated to form a 24 dimensional feature vector.
+
+\subsection{Results and discussion}
+The SVM performance is summarized in Tables * and *. One fact revealed in this analysis is the relatively small performance increase observed by sorting the chroma, even when using the ground truth directly. By sorting the chroma any information on the genre given by the key has been removed (for example as a prior estimate based on the key distributions in each genre) which would, it is hoped, reveal any structural differences. However whether or not this technique improves performance depends on the initial distribution of pitch chroma; suppose genre groups are perfectly separable given their key-independent chroma distributions and then for each song we transpose it into a new key with some related probability. Since cyclic-transpositions correspond to reflections this process is unlikely to make the data significantly more or less separable, which may explain the small in-crease in performance when using sorted chroma. Split-ting the data into major and minor results in slightly improved accuracy, however in this case we have added information by using the ground truth and realistically harmony estimation should be done automatically which would be an additional source of error.
+	Unsurprisingly MFCCs vastly outperformed pitch chroma features alone. However, combining features results in a slight performance increase in overall accuracy of around 4-5% indicating that the pitch chro-ma distributions contain at least some genre-relevant information.
+
+\section{Conclusion}
+
+
+\bibliography{ChromaPaper}
+
+\end{document}
