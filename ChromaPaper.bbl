@@ -1,0 +1,45 @@
+\begin{thebibliography}{1}
+
+\bibitem{chang_libsvm:_2011}
+Chih-chung Chang and Chih-jen Lin.
+\newblock {LIBSVM:} a library for support vector machines.
+\newblock {\em {ACM} Transactions on Intelligent Systems and Technology
+  ({TIST)}}, 2(3), 2011.
+
+\bibitem{fujishima_realtime_1999}
+Takuya Fujishima.
+\newblock Realtime chord recognition of musical sound: a system using common
+  lisp music.
+\newblock In {\em Proceedings of the International Computer Music Conference
+  ({ICMC)}}, 1999.
+
+\bibitem{izmirli_template_2005}
+{\"O}zg{\"u}r Izmirli.
+\newblock Template based key finding from audio.
+\newblock In {\em Proceedings of the International Computer Music Conference
+  ({ICMC)}}, Barcelona, September 2005.
+
+\bibitem{krumhansl_cognitive_1990}
+Carol~L Krumhansl.
+\newblock {\em Cognitive Foundations of Musical Pitch}.
+\newblock Oxford University Press, New York, 1990.
+
+\bibitem{li_genre_2011}
+Tom~{LH} Li and Antoni~B Chan.
+\newblock Genre classification and the invariance of {MFCC} features to key and
+  tempo.
+\newblock In {\em Proceedings of the International Multimedia Modeling
+  Conference ({MMM)}}, page 317{\textendash}327, Taipei, 2011. Springer.
+
+\bibitem{muller_information_2007}
+Meinard M{\"u}ller.
+\newblock {\em Information Retrieval for Music and Motion}.
+\newblock Springer, Berlin, 2007.
+
+\bibitem{temperley_tonal_2007}
+David Temperley.
+\newblock The tonal properties of pitch-class sets : Tonal implication, tonal
+  ambiguity, and tonalness.
+\newblock {\em Computing in Musicology}, 15:24{\textendash}38, 2007.
+
+\end{thebibliography}
