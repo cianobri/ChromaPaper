@@ -62,8 +62,9 @@ which these genres can be identified using these distributions and different str
 
 
 \section{Data set}\label{sec:dataset}
-The data set used was the GTZAN collection.\footnote{\url{http://marsyas.info/download/data_sets}} While this set is old and it is clear that it has its disadvantages \cite{sturm_analysis_2012}, it is a well-known, widely-used, and, last but not least, easily available set for genre classification tasks. It consists of a collection of $1000$ song excerpts divided into ten genres: Blues, Classical, Rock, Reggae, Pop, Metal, Rock, Jazz, Country and Hip Hop. Key annotations for the track are publicly available.\footnote{\url{github.com/alexanderlerch/data_set}} Instances that included key modulations or where hard to identify have been omitted. The Classical genre has not been annotated. The number of annotated files reflects the difficulty of unambiguously identifying the key; it is shown in the Table~\ref{tab:NumberOfAnnotatedDataSetEntries}. 
-
+The data set used was the GTZAN collection.\footnote{\url{http://marsyas.info/download/data_sets}} While this set is old and it is clear that it has its disadvantages \cite{sturm_analysis_2012}, it is a well-known, widely-used, and, last but not least, easily available set for genre classification tasks. It consists of a collection of $1000$ song excerpts divided into ten genres: Blues, Classical, Rock, Reggae, Pop, Metal, Rock, Jazz, Country and Hip Hop. 
+Key annotations for the track are publicly available.\footnote{\url{github.com/alexanderlerch/data_set}} Instances that included key modulations or with a not easily identifiable key have been omitted from the labels. For example, none of the excerpts from the Classical genre is not annotated. 
+The number of annotated files therefore reflects the difficulty of unambiguously identifying the key; Table~\ref{tab:NumberOfAnnotatedDataSetEntries} gives an overview of the number of annotated files and their mode. 
 \begin{table}
     \begin{center}
         \begin{tabular}{|l|l|l|l|}
@@ -98,22 +99,22 @@ The data set used was the GTZAN collection.\footnote{\url{http://marsyas.info/do
 	\caption{Number of annotated data set entries}
 	\label{tab:NumberOfAnnotatedDataSetEntries}
 \end{table}
+MAYBE WE DONT NEED THIS TABLE - WE COULD JUST ADD A SMALL bAR PLOT WITH THE NUMBER OF ANNOTATED FILES?
 
-Figure \ref{fig:KeyDistributionPerGenre} visualizes the distribution of keys for each genre.
+Figure \ref{fig:KeyDistributionPerGenre} gives a more detailed visualization of the key distribution per genre with the root notes sorted with respect to the circle of fifths and major modes (left) separated from minor modes (right). 
 \begin{figure}
     \includegraphics[scale=.4]{graph/key_distribution}
-	\caption{Key distribution per genre (brighter means more frequent): SHIFT BOTH CMAJOR AND AMINOR TO THE MIDDLE}
+	\caption{Key distribution per genre (brighter means more frequent): SHIFT BOTH CMAJOR AND AMINOR TO THE MIDDLE --- AND WHY IS THIS PLOT BLACK AND WHITE???}
 	\label{fig:KeyDistributionPerGenre}
 \end{figure}
 %The distribution of keys in each genre proved unsurprising.
-The relation of major vs.\ minor modes is very skewed for blues and metal (predominantly minor) as well as country (predominantly major), while the genres disco, pop, reggae, and rock appear to be quite balanced.
-Jazz tracks tend to be clustered around flat keys which are favored by trumpet and saxophone players. 
-The keys for country cluster around C-Maj with a tendency to sharp keys.
+The relation of major vs.\ minor modes is very skewed for blues and metal (predominantly minor) as well as country (predominantly major); the genres disco, pop, reggae, and rock have a more balanced distribution between modes. Jazz tracks tend to be clustered around flat keys which are favored by trumpet and saxophone players. The keys for country cluster around C-Maj with a tendency to sharp keys. The majority of metal tracks are in either a minor or e minor, keys that are well-suited to the electric guitar and bass and correspond to the two lowest open strings. Rock is clustered around keys with few accidentals
+
 %Pieces from the blues are mostly in the keys of G, E and B-flat. 
-The majority of metal tracks are in either a-min or e-min, keys that are well-suited to the electric guitar and bass and correspond to the two lowest open strings.
 
-
-Li and Chan presented another set of key annotations for the GTZAN data set \cite{li_genre_2011}. An examination of the two independent annotations reveals some disagreements between the two annotations: overall, about $85$ percent of the data is labeled identically. Of the differences where there was disagreement on whether a key modulation occurred or not, the majority were found in the Blues genre with 67 out 127 total disagreements of this type. If we consider only examples where both analyses agreed a modulation had \textit{not} occured, there was a total of 119 disagreements. The most common differences were: major/relative-minor confusion (38), root/fifth confusion (35) and major/minor confusion (13).
+It is worth noting that Li and Chan presented another set of key annotations for the GTZAN data set \cite{li_genre_2011}. An examination of the two independent annotations reveals some disagreements between the two annotations: overall, about $85$ percent of the data is labeled identically. 
+ICH VERSTEHE DIE ZAHLEN HIER NICHT: 67 + 119 IST DOCH MEHR ALS 15\%??
+Of the differences where there was disagreement on whether a key modulation occurred or not, the majority were found in the Blues genre with 67 out 127 total disagreements of this type. If we consider only examples where both analyses agreed a modulation had \textit{not} occurred, there was a total of 119 disagreements. The most common differences were: major/relative-minor confusion (38), root/fifth confusion (35) and major/minor confusion (13).
 %\begin{itemize}
     %\item   blues: $98$ vs.\ $31$ (Li) annotated tracks
     %\item   disco: $21$ differences between the two data sets
@@ -121,10 +122,10 @@ Li and Chan presented another set of key annotations for the GTZAN data set \cit
 %The genre country showed only $1$ difference. 
 
 \section{Feature extraction}\label{sec:pitch_chroma}
-We extract the key profiles per file. The term key profile as we use it here is the overall, root-note independent pitch chroma per file. The detailed extraction is explained below.
+We extract the key profiles per file. We use the term key profile for the overall, root-note independent pitch chroma per file. The detailed extraction is explained below.
 
 \subsection{Pitch chroma}\label{subsec:pc_extract}
-The pitch chroma is a commonly used feature in the field of Music Information Retrieval (MIR) \cite{muller_information_2007}. It is a twelve-dimensional histogram-like octave-independent vector showing the “strength” of the 12 semitone classes (C, C\#, D, ..., B). It is computed by converting the spectrum to semi-tone bands and summing the energy of all bands with the distance of an octave \cite{fujishima_realtime_1999}. The key profile per file is a single 12-dimensional vector that is computed by taking the median of all individual pitch chromas. 
+The pitch chroma is a commonly used feature in the field of Music Information Retrieval (MIR) \cite{muller_information_2007}. It is a twelve-dimensional histogram-like octave-independent vector showing the ``strength'' of the 12 semitone classes (C, C\#, D, ..., B). It is computed by converting the spectrum to semi-tone bands and summing the energy of all bands with the distance of an octave \cite{fujishima_realtime_1999}. The key profile per file is a single 12-dimensional vector that is computed by taking the median of all individual pitch chromas. 
 The pitch chroma is extracted at a sample rate of \unit[10]{kHz} over a range of three octaves, starting from C at \unit[130.8]{Hz}. The FFT block size is XXX, the hop size is XXX.
 
  %Each track in the labeled collection was down-sampled to 10kHz and pitch chroma vectors were extracted block-wise over a three octave range, starting from C = 130.8 Hz. Pitch chroma were then normalized using the 1-norm:                     
