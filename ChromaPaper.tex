@@ -47,7 +47,7 @@
 %
 \begin{abstract}
 Pitch chroma are a popular feature for many MIR tasks. Using the GTZAN data set we investigate the distributions of pitch chroma for 9 different genres, the degree to
-which these genres can be identified using these distributions and different strategies for achieving key-independence; namely transposition of the chroma according to its maximum value and 12-point FFT. We find that combining pitch chroma with commonly used MFCCs can lead to small increase in classification accuracy using a Support Vector Machine. Furthermore these results show that the imposing key-independence has a surprisingly small affect on performance.
+which these genres can be identified using these distributions and different strategies for achieving key-independence; namely transposition of the chroma according to its maximum value and 12-point FFT. We find that combining pitch chroma with commonly used MFCC can lead to small increase in classification accuracy using a Support Vector Machine. Furthermore these results show that the imposing key-independence has a surprisingly small affect on performance.
 \end{abstract}
 %
 \section{Introduction}\label{sec:introduction}
@@ -103,8 +103,8 @@ MAYBE WE DONT NEED THIS TABLE - WE COULD JUST ADD A SMALL bAR PLOT WITH THE NUMB
 
 Figure \ref{fig:KeyDistributionPerGenre} gives a more detailed visualization of the key distribution per genre with the root notes sorted with respect to the circle of fifths and major modes (left) separated from minor modes (right). 
 \begin{figure}
-    \includegraphics[scale=.4]{graph/key_distribution}
-	\caption{Key distribution per genre (brighter means more frequent): SHIFT BOTH CMAJOR AND AMINOR TO THE MIDDLE --- AND WHY IS THIS PLOT BLACK AND WHITE???}
+    \includegraphics[scale=.2]{graph/key_distribution2}
+	\caption{Key distribution per genre (brighter means more frequent) - COLOUR?}
 	\label{fig:KeyDistributionPerGenre}
 \end{figure}
 %The distribution of keys in each genre proved unsurprising.
@@ -127,7 +127,7 @@ We extract the key profiles per file. We use the term key profile for the overal
 \subsection{Pitch chroma}\label{subsec:pc_extract}
 The pitch chroma is a commonly used feature in the field of Music Information Retrieval (MIR), because it is a compact, robust, and mostly timbre-independent representation of the pitch content  \cite{muller_information_2007}. It is a twelve-dimensional histogram-like octave-independent vector showing the ``strength'' of the 12 semitone classes (C, C\#, D, ..., B). It is computed by converting the spectrum to semi-tone bands and summing the energy of all bands with the distance of an octave \cite{fujishima_realtime_1999}. 
 The overall pitch chroma per file is a single 12-dimensional vector that is computed by taking the median of all individual pitch chromas. 
-The pitch chroma is extracted at a sample rate of \unit[10]{kHz} over a range of three octaves, starting from C at \unit[130.8]{Hz}. The FFT block size is XXX, the hop size is XXX.
+The pitch chroma is extracted at a sample rate of \unit[10]{kHz} over a range of three octaves, starting from C at \unit[130.8]{Hz}. The FFT block size is 8192, the hop size is 4096.
 
  %Each track in the labeled collection was down-sampled to 10kHz and pitch chroma vectors were extracted block-wise over a three octave range, starting from C = 130.8 Hz. Pitch chroma were then normalized using the 1-norm:                     
 	 %equation?
@@ -164,17 +164,84 @@ The distributions for minor have, compared to the major distributions, less dist
 
 \subsection{Inter-genre distances}
 In order to evaluate how distinct genres are with respect to their key profile, distance between all profiles were calculated using the Manhattan distance as shown in Figs.~\ref{fig:distance_major} and \ref{fig:distance_minor}. Genres for which the number of examples were less than 30 are grayed out. The labels are as follows: B is blues, C country, D disco, H hip-hop, J jazz, M metal, P pop, Rg Reggae, Rk is rock, K is the Krumhansl key profile and T the Temperley profile \cite{temperley_tonal_2007}.
-\begin{figure}[tb]
-    \includegraphics[scale=.4]{graph/majorDistManhattan}
-	\caption{Manhattan distance between the major profiles of all genres and three overall profiles MAYBE INCLUDE THE OVERALL MEDIAN VALUES HERE AS WELL}
-	\label{fig:distance_major}
-\end{figure}
-\begin{figure}[tb]
-    \includegraphics[scale=.4]{graph/minorDistManhattan}
-	\caption{Manhattan distance between the minor profiles of  all genres and three overall profiles MAYBE INCLUDE THE OVERALL MEDIAN VALUES HERE AS WELL}
-	\label{fig:distance_minor}
-\end{figure}
+\begin{table}
+\centering
+\resizebox{\columnwidth}{!}{%
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        Genre &\ B & \ C & \ D & \ H & \ J & \ M & \ P & \ Rg & \ R & \ Kr & \ Tp  & \ Mdn\\
+        \hline
+        Blues		 &0    &0.35    &0.40    &0.68    &0.44    &0.34    &0.35    &0.43    &0.31    &0.51    &0.59    &0.33\\
+        \hline
+        Country  &0.35         &0    &0.27    &0.60    &0.32    &0.32    &0.17    &0.34    &0.20    &0.41    &0.47    &0.19\\
+        \hline
+        Disco 	&0.40    &0.27         &0    &0.33    &0.12    &0.21    &0.11    &0.12    &0.11    &0.15    &0.25    &0.09\\
+        \hline
+        Hiphop 	&0.68    &0.60    &0.33         &0    &0.27    &0.41    &0.42    &0.28    &0.43    &0.24    &0.29    &0.40\\
+        \hline
+        Jazz 		&0.44    &0.32    &0.12    &0.27         &0    &0.25    &0.15    &0.17    &0.17    &0.12    &0.24    &0.13\\
+        \hline
+        Metal 	&0.34    &0.32   &0.21    &0.41    &0.25         &0    &0.20    &0.21    &0.16    &0.27    &0.41    &0.19\\
+        \hline
+        Pop 		&0.35    &0.17    &0.11    &0.42    &0.15    &0.20         &0    &0.19    &0.08    &0.23    &0.29    &0.05\\
+        \hline
+        Reggae 	&0.43    &0.34    &0.12    &0.28    &0.17    &0.21    &0.19         &0    &0.17    &0.13    &0.23    &0.17\\
+        \hline
+        Rock 		&0.31    &0.20   &0.10    &0.43    &0.17    &0.16    &0.08    &0.17         &0    &0.23   &0.30    &0.06\\
+        \hline
+				Krum 		&0.51    &0.41   &0.15    &0.24    &0.14    &0.27    &0.23    &0.13    &0.23         &0    &0.15    &0.21\\
+				\hline
+				Temp 		&0.59   &0.47    &0.25    &0.29    &0.24    &0.41    &0.29    &0.23    &0.30    &0.15         &0    &0.28\\
+				\hline
+				Median 		&0.33    &0.19    &0.09    &0.40    &0.13    &0.19    &0.05    &0.17    &0.06    &0.21    &0.28         &0\\
+				\hline
+        \end{tabular}%
+}
+    
+   
+	\caption{Genre Distances for Major tracks using L1-norm}
+	\label{tab:NumberOfAnnotatedDataSetEntries}
+\end{table}
+
+\begin{table}
+\centering
+\resizebox{\columnwidth}{!}{%
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        Genre &\ B & \ C & \ D & \ H & \ J & \ M & \ P & \ Rg & \ R & \ Kr & \ Tp  & \ Mdn\\
+        \hline
+        Blues		 & 0    &0.29   &0.27   & 0.30   &0.27    &0.18    &0.22  &0.33    &0.28    &0.28    &0.39    &0.18\\
+        \hline
+        Country  &0.29         &0    &0.46    &0.59   &0.36    &0.45    &0.43    &0.43    &0.36   &0.53    &0.53    &0.41\\
+        \hline
+        Disco 	&0.27    &0.46         &0    &0.17    &0.20    &0.16    &0.10    &0.15    &0.19    &0.14    &0.20    &0.12\\
+        \hline
+        Hiphop 	& 0.30    &0.59    &0.17         &0    &0.28    &0.21    &0.17    &0.23    &0.33    &0.17    &0.27    &0.18\\
+        \hline
+        Jazz 		&0.27    &0.36    &0.20    &0.28         &0    &0.23    &0.16    &0.19    &0.16    &0.24    &0.27    &0.15\\
+        \hline
+        Metal 	& 0.18    &0.45    &0.16    &0.21    &0.23         &0    &0.13    &0.26    &0.20    &0.14    &0.31    &0.09\\
+        \hline
+        Pop 		&0.22    &0.43    &0.10    &0.17    &0.16    &0.13         &0    &0.15    &0.16    &0.13   &0.25    &0.05\\
+        \hline
+        Reggae 	&0.33    &0.43    &0.15    &0.23    &0.19    &0.26    &0.15         &0    &0.19    &0.18    &0.23    &0.18\\
+        \hline
+        Rock 		&0.28   &0.36    &0.19    &0.33    &0.16    &0.20    &0.16    &0.19         &0    &0.25    &0.33    &0.15\\
+        \hline
+				Krum 		&0.28    &0.53    &0.14    &0.17    &0.24    &0.18    &0.13    &0.18    &0.25         &0    &0.16    &0.16\\
+				\hline
+				Temp 		& 0.39    &0.53    &0.20    &0.27    &0.27    &0.31    &0.25    &0.23    &0.33    &0.16         &0    &0.28\\
+				\hline
+				Median 		&0.18    &0.41    &0.12    &0.18    &0.15    &0.09    &0.05    &0.18    &0.15    &0.16    &0.28         &0\\
+				\hline
+        \end{tabular}%
+}
+   
+	\caption{Genre Distances for Minor tracks using L1-norm}
+	\label{tab:NumberOfAnnotatedDataSetEntries}
+\end{table}
 MAYBE IT's WORTH LOOKING AT A MATRIX THAT COMBINES THESE RESULTS? DID WE DECIDE TO THROW OUT THE MDS? I DON't REMEMBER.
+CIAN-I DONT THINK WE MADE A DECISION EITHER WAY. I THINK MAYBE WE SHOULD INCLUDE ONE OR THE OTHER SINCE THEY BOTH CONTAIN ROUGHLY THE SAME INFORMATION?
 
 Looking at the distance matrices, we can see that for major keys, the most similar genres are Rock and Pop while the most mutually distinct genres when considering major tracks are Country and Jazz. For minor tracks, Reggae and Pop are the most similar while Reggae and Rock are the most distinct.
 
