@@ -155,7 +155,7 @@ Temperley's key profiles are extracted from symbolic data  rather than from audi
 \end{figure*}
 
 \subsection{Genre-specific key profiles}
-The key profiles of the six most populated genres are plotted in Fig.~\ref{SpecificKeyProfiles}.
+The key profiles of the six most populated genres are plotted in Fig.~\ref{fig:SpecificKeyProfiles}.
 \begin{figure*}[tb]
     \includegraphics[scale=.2]{graph/boxPlotsMajCPR+Krum+Temp}
     \includegraphics[scale=.2]{graph/boxPlotsMinBHP+Krum+Temp}
@@ -169,82 +169,82 @@ The major distribution exhibits mostly a similar pattern with prominent spikes a
 The distributions for minor have, compared to the major distributions, less distinct minima for non-scale pitches; especially the Blues distribution is ---~with the exception of root note and fifth~--- basically flat.
 
 \subsection{Inter-genre distances}
-In order to evaluate how distinct genres are with respect to their key profile, distance between all profiles were calculated using the Manhattan distance as shown in Figs.~\ref{fig:distance_major} and \ref{fig:distance_minor}. Genres for which the number of examples were less than 30 are grayed out. The labels are as follows: B is blues, C country, D disco, H hip-hop, J jazz, M metal, P pop, Rg Reggae, Rk is rock, K is the Krumhansl key profile, T the Temperley profile \cite{temperley_tonal_2007} and finally the overall median major/minor pitch profiles are denoted by Mdn.
+In order to evaluate how distinct genres are with respect to their key profile, distance between all profiles were calculated using the Manhattan distance as shown in Tables~\ref{tab:GenreDistancesMajor} and \ref{tab:GenreDistancesMinor}. Genres for which the number of examples were less than 30 are grayed out. The labels are as follows: B is blues, C country, D disco, H hip-hop, J jazz, M metal, P pop, Rg Reggae, Rk is rock, K is the Krumhansl key profile, T the Temperley profile \cite{temperley_tonal_2007} and finally the overall median major/minor pitch profiles are denoted by Mdn.
 \begin{table}
 \centering
 \resizebox{\columnwidth}{!}{%
-        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+        \begin{tabular}{|c||c|c|c|c|c|c|c|c|c||c|c|c|}
         \hline
-        Genre &\ B & \ C & \ D & \ H & \ J & \ M & \ P & \ Rg & \ R & \ Kr & \ Tp  & \ Mdn\\
+        \textbf{Genre} &\ \textbf{B} & \ \textbf{C }& \ \textbf{D} & \ \textbf{H} & \ \textbf{J} & \ \textbf{M} & \ \textbf{P} & \ \textbf{Rg} & \ \textbf{R} & \ \textbf{Kr} & \ \textbf{Tp}  & \ \textbf{Mdn}\\
+        \hline\hline
+        \textbf{B}		 &0    &0.35    &0.40    &0.68    &0.44    &0.34    &0.35    &0.43    &0.31    &0.51    &0.59    &0.33\\
         \hline
-        Blues		 &0    &0.35    &0.40    &0.68    &0.44    &0.34    &0.35    &0.43    &0.31    &0.51    &0.59    &0.33\\
+        \textbf{C}  &0.35         &0    &0.27    &0.60    &0.32    &0.32    &0.17    &0.34    &0.20    &0.41    &0.47    &0.19\\
         \hline
-        Country  &0.35         &0    &0.27    &0.60    &0.32    &0.32    &0.17    &0.34    &0.20    &0.41    &0.47    &0.19\\
+        \textbf{D} 	&0.40    &0.27         &0    &0.33    &0.12    &0.21    &0.11    &0.12    &0.11    &0.15    &0.25    &0.09\\
         \hline
-        Disco 	&0.40    &0.27         &0    &0.33    &0.12    &0.21    &0.11    &0.12    &0.11    &0.15    &0.25    &0.09\\
+        \textbf{H} 	&0.68    &0.60    &0.33         &0    &0.27    &0.41    &0.42    &0.28    &0.43    &0.24    &0.29    &0.40\\
         \hline
-        Hiphop 	&0.68    &0.60    &0.33         &0    &0.27    &0.41    &0.42    &0.28    &0.43    &0.24    &0.29    &0.40\\
+        \textbf{J} 		&0.44    &0.32    &0.12    &0.27         &0    &0.25    &0.15    &0.17    &0.17    &0.12    &0.24    &0.13\\
         \hline
-        Jazz 		&0.44    &0.32    &0.12    &0.27         &0    &0.25    &0.15    &0.17    &0.17    &0.12    &0.24    &0.13\\
+        \textbf{M} 	&0.34    &0.32   &0.21    &0.41    &0.25         &0    &0.20    &0.21    &0.16    &0.27    &0.41    &0.19\\
         \hline
-        Metal 	&0.34    &0.32   &0.21    &0.41    &0.25         &0    &0.20    &0.21    &0.16    &0.27    &0.41    &0.19\\
+        \textbf{P} 		&0.35    &0.17    &0.11    &0.42    &0.15    &0.20         &0    &0.19    &0.08    &0.23    &0.29    &0.05\\
         \hline
-        Pop 		&0.35    &0.17    &0.11    &0.42    &0.15    &0.20         &0    &0.19    &0.08    &0.23    &0.29    &0.05\\
+        \textbf{Rg} 	&0.43    &0.34    &0.12    &0.28    &0.17    &0.21    &0.19         &0    &0.17    &0.13    &0.23    &0.17\\
         \hline
-        Reggae 	&0.43    &0.34    &0.12    &0.28    &0.17    &0.21    &0.19         &0    &0.17    &0.13    &0.23    &0.17\\
-        \hline
-        Rock 		&0.31    &0.20   &0.10    &0.43    &0.17    &0.16    &0.08    &0.17         &0    &0.23   &0.30    &0.06\\
-        \hline
-				Krum 		&0.51    &0.41   &0.15    &0.24    &0.14    &0.27    &0.23    &0.13    &0.23         &0    &0.15    &0.21\\
+        \textbf{R} 		&0.31    &0.20   &0.10    &0.43    &0.17    &0.16    &0.08    &0.17         &0    &0.23   &0.30    &0.06\\
+        \hline\hline
+				\textbf{Kr} 		&0.51    &0.41   &0.15    &0.24    &0.14    &0.27    &0.23    &0.13    &0.23         &0    &0.15    &0.21\\
 				\hline
-				Temp 		&0.59   &0.47    &0.25    &0.29    &0.24    &0.41    &0.29    &0.23    &0.30    &0.15         &0    &0.28\\
+				\textbf{Tp}		&0.59   &0.47    &0.25    &0.29    &0.24    &0.41    &0.29    &0.23    &0.30    &0.15         &0    &0.28\\
 				\hline
-				Median 		&0.33    &0.19    &0.09    &0.40    &0.13    &0.19    &0.05    &0.17    &0.06    &0.21    &0.28         &0\\
+				\textbf{Mdn} 		&0.33    &0.19    &0.09    &0.40    &0.13    &0.19    &0.05    &0.17    &0.06    &0.21    &0.28         &0\\
 				\hline
         \end{tabular}%
 }
     
    
 	\caption{Genre Distances for Major tracks using L1-norm}
-	\label{tab:NumberOfAnnotatedDataSetEntries}
+	\label{tab:GenreDistancesMajor}
 \end{table}
 
 \begin{table}
 \centering
 \resizebox{\columnwidth}{!}{%
-        \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+        \begin{tabular}{|c||c|c|c|c|c|c|c|c|c||c|c|c|}
         \hline
-        Genre &\ B & \ C & \ D & \ H & \ J & \ M & \ P & \ Rg & \ R & \ Kr & \ Tp  & \ Mdn\\
+        \textbf{Genre} &\ \textbf{B} & \ \textbf{C }& \ \textbf{D} & \ \textbf{H} & \ \textbf{J} & \ \textbf{M} & \ \textbf{P} & \ \textbf{Rg} & \ \textbf{R} & \ \textbf{Kr} & \ \textbf{Tp}  & \ \textbf{Mdn}\\
+        \hline\hline
+        \textbf{B}		 & 0    &0.29   &0.27   & 0.30   &0.27    &0.18    &0.22  &0.33    &0.28    &0.28    &0.39    &0.18\\
         \hline
-        Blues		 & 0    &0.29   &0.27   & 0.30   &0.27    &0.18    &0.22  &0.33    &0.28    &0.28    &0.39    &0.18\\
+        \textbf{C}  &0.29         &0    &0.46    &0.59   &0.36    &0.45    &0.43    &0.43    &0.36   &0.53    &0.53    &0.41\\
         \hline
-        Country  &0.29         &0    &0.46    &0.59   &0.36    &0.45    &0.43    &0.43    &0.36   &0.53    &0.53    &0.41\\
+        \textbf{D} 	&0.27    &0.46         &0    &0.17    &0.20    &0.16    &0.10    &0.15    &0.19    &0.14    &0.20    &0.12\\
         \hline
-        Disco 	&0.27    &0.46         &0    &0.17    &0.20    &0.16    &0.10    &0.15    &0.19    &0.14    &0.20    &0.12\\
+        \textbf{H} & 0.30    &0.59    &0.17         &0    &0.28    &0.21    &0.17    &0.23    &0.33    &0.17    &0.27    &0.18\\
         \hline
-        Hiphop 	& 0.30    &0.59    &0.17         &0    &0.28    &0.21    &0.17    &0.23    &0.33    &0.17    &0.27    &0.18\\
+        \textbf{J} 		&0.27    &0.36    &0.20    &0.28         &0    &0.23    &0.16    &0.19    &0.16    &0.24    &0.27    &0.15\\
         \hline
-        Jazz 		&0.27    &0.36    &0.20    &0.28         &0    &0.23    &0.16    &0.19    &0.16    &0.24    &0.27    &0.15\\
+        \textbf{M} 	& 0.18    &0.45    &0.16    &0.21    &0.23         &0    &0.13    &0.26    &0.20    &0.14    &0.31    &0.09\\
         \hline
-        Metal 	& 0.18    &0.45    &0.16    &0.21    &0.23         &0    &0.13    &0.26    &0.20    &0.14    &0.31    &0.09\\
+        \textbf{P} 		&0.22    &0.43    &0.10    &0.17    &0.16    &0.13         &0    &0.15    &0.16    &0.13   &0.25    &0.05\\
         \hline
-        Pop 		&0.22    &0.43    &0.10    &0.17    &0.16    &0.13         &0    &0.15    &0.16    &0.13   &0.25    &0.05\\
+        \textbf{Rg} 	&0.33    &0.43    &0.15    &0.23    &0.19    &0.26    &0.15         &0    &0.19    &0.18    &0.23    &0.18\\
         \hline
-        Reggae 	&0.33    &0.43    &0.15    &0.23    &0.19    &0.26    &0.15         &0    &0.19    &0.18    &0.23    &0.18\\
-        \hline
-        Rock 		&0.28   &0.36    &0.19    &0.33    &0.16    &0.20    &0.16    &0.19         &0    &0.25    &0.33    &0.15\\
-        \hline
-				Krum 		&0.28    &0.53    &0.14    &0.17    &0.24    &0.18    &0.13    &0.18    &0.25         &0    &0.16    &0.16\\
+        \textbf{R} 		&0.28   &0.36    &0.19    &0.33    &0.16    &0.20    &0.16    &0.19         &0    &0.25    &0.33    &0.15\\
+        \hline\hline
+				\textbf{Kr} 		&0.28    &0.53    &0.14    &0.17    &0.24    &0.18    &0.13    &0.18    &0.25         &0    &0.16    &0.16\\
 				\hline
-				Temp 		& 0.39    &0.53    &0.20    &0.27    &0.27    &0.31    &0.25    &0.23    &0.33    &0.16         &0    &0.28\\
+				\textbf{Tp} 		& 0.39    &0.53    &0.20    &0.27    &0.27    &0.31    &0.25    &0.23    &0.33    &0.16         &0    &0.28\\
 				\hline
-				Median 		&0.18    &0.41    &0.12    &0.18    &0.15    &0.09    &0.05    &0.18    &0.15    &0.16    &0.28         &0\\
+				\textbf{Mdn} 		&0.18    &0.41    &0.12    &0.18    &0.15    &0.09    &0.05    &0.18    &0.15    &0.16    &0.28         &0\\
 				\hline
         \end{tabular}%
 }
    
 	\caption{Genre Distances for Minor tracks using L1-norm}
-	\label{tab:NumberOfAnnotatedDataSetEntries}
+	\label{tab:GenreDistancesMinor}
 \end{table}
 MAYBE IT's WORTH LOOKING AT A MATRIX THAT COMBINES THESE RESULTS? DID WE DECIDE TO THROW OUT THE MDS? I DON't REMEMBER.
 CIAN-I DONT THINK WE MADE A DECISION EITHER WAY. I THINK MAYBE WE SHOULD INCLUDE ONE OR THE OTHER SINCE THEY BOTH CONTAIN ROUGHLY THE SAME INFORMATION?
@@ -299,6 +299,7 @@ Table~\ref{tab:accuracyPC} summarizes the results of the SVM classification for 
 
     \end{tabular}
     \caption{Classification accuracy for different key profile computations.}
+    \label{tab:accuracyPC}
   \end{center}
 \end{table}
 
@@ -321,6 +322,7 @@ Table~\ref{tab:accuracyPC} summarizes the results of the SVM classification for 
 
     \end{tabular}
     \caption{Classification accuracy for different key profile computations in cobmbination with MFCC features.}
+    \label{tab:accuracyPC+MFCC}
   \end{center}
 \end{table}
 
