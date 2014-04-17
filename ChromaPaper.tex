@@ -146,16 +146,20 @@ Figure \ref{fig:OverallKeyProfiles} shows the overall key profiles in a box plot
 While Krumhansl's ``Probe Tone Ratings'' \cite{krumhansl_cognitive_1990} are not really a key profile (derived from listening experiments on tonality)they have been frequently used in audio key detection. They seem to correlate well with key profiles (e.g., \cite{izmirli_template_2005}). 
 Temperley's key profiles are extracted from symbolic data  rather than from audio \cite{temperley_bayesian_2004,temperley_pitch-class_2008}.
 \begin{figure*}[tb]
-    \includegraphics[scale=.4]{graph/overall_boxplot}
-	\caption{Major (left) and minor (right) key profiles for the complete data set, in comparison with two widely-used key profiles (Krumhansl and Temperley) CAN YOU OVERLAY THE BOX PLOTS WITH THE KRUMHANSL/TEMPERLEY GRAPHS? SHOULDNT THE WHISKERS BE THERE FOR ALL PITCHES?}
+    \includegraphics[scale=.2]{graph/allMajChroma+Krum+Temp}
+    \includegraphics[scale=.2]{graph/allMinChroma+Krum+Temp}
+	\caption{Major (left) and minor (right) key profiles for the complete data set, in comparison with two widely-used key profiles (Krumhansl and Temperley).}
 	\label{fig:OverallKeyProfiles}
 \end{figure*}
 
 \subsection{Genre-specific key profiles}
 The key profiles of the six most populated genres are plotted in Fig.~\ref{SpecificKeyProfiles}.
 \begin{figure*}[tb]
-    \includegraphics[scale=.4]{graph/specific_boxplot}
-	\caption{Major (left) and minor (right) key profiles for the various genres, in comparison with Krumhansl's probe tone ratings CAN YOU OVERLAY THE BOX PLOTS WITH THE KRUMHANSL/TEMPERLEY GRAPHS? SHOULDNT THE WHISKERS BE THERE FOR ALL PITCHES?}
+    \includegraphics[scale=.2]{graph/boxPlotsMajCPR+Krum+Temp}
+    \includegraphics[scale=.2]{graph/boxPlotsMinBHP+Krum+Temp}
+    \includegraphics[scale=.2]{graph/boxPlotsMajDJRk+Krum+Temp}
+    \includegraphics[scale=.2]{graph/boxPlotsMinDMR+Krum+Temp}
+	\caption{Major (left) and minor (right) key profiles for the various genres, in comparison with the Krumhansl and Temperley profiles. SHOULD ALL 6 BE ONE FIGURE? I DON'T KNOW WHY THE ALIGNMENT IS WRONG HERE...}
 	\label{fig:SpecificKeyProfiles}
 \end{figure*}
 The major distribution exhibits mostly a similar pattern with prominent spikes at the root note and the fifth. The Jazz distribution is one example that is noticeably different: it is rather flat and more uniform than the distributions of other genre's. It is to be expected that Jazz shows a wider range of pitches and harmonies and thus a more uniform pitch class distribution.
@@ -248,8 +252,8 @@ Looking at the distance matrices, we can see that for major keys, the most simil
 Overall, Country and Jazz (major), and Blues (minor) are on average most dissimilar to all other genres (as well as the two template profiles), 
 
 \section{Classification}
-Musical genre recognition is a well studied field in MIR \cite{fu_survey_2011}. The most widely and successfully used features in this area are timbre features such as Mel Frequency Cepstral Coefficients (MFCCs). MFCCs seem well suited to picking up on instrumental and timbral differences between genres, although they are not totally independent of harmonic and tonal properties \cite{li_genre_2011}.
-While the distance results indicate what genres are most similar and dissimilar, it does not allow an interpretation as to whether the genres distances do actually help to separate genres. In order to investigate how separable  our genre-specific key profiles are, we train an SVM classifier with our features (see Sect.~\ref{sec:featureset}) and compare the results with an MFCC-based classifier. The MFCCs were calculated according to REFXXX: WHAT COMPUTATION DID YOU USE?. The mean and standard deviation of $12$ MFCCs form a $24$-dimensional timbre feature vector.We used libSVM  \cite{chang_libsvm:_2011} and picked the SVM parameters with a grid search and 5-fold cross validation on a separate stratified split of the data. The classification is carried out for the $9$ classes described above.
+Musical genre recognition is a well studied field in MIR \cite{fu_survey_2011}. The most widely and successfully used features in this area are timbre features such as Mel Frequency Cepstral Coefficients (MFCC). MFCC seem well suited to picking up on instrumental and timbral differences between genres, although they are not totally independent of harmonic and tonal properties \cite{li_genre_2011}.
+While the distance results indicate what genres are most similar and dissimilar, it does not allow an interpretation as to whether the genres distances do actually help to separate genres. In order to investigate how separable  our genre-specific key profiles are, we train an SVM classifier with our features (see Sect.~\ref{sec:featureset}) and compare the results with an MFCC-based classifier. The MFCC were calculated according to REFXXX: WHAT COMPUTATION DID YOU USE?. The mean and standard deviation of $12$ MFCC form a $24$-dimensional timbre feature vector.We used libSVM  \cite{chang_libsvm:_2011} and picked the SVM parameters with a grid search and 5-fold cross validation on a separate stratified split of the data. The classification is carried out for the $9$ classes described above.
 
 While the KP1 feature (shifted by ground truth) are sufficient to prove or disprove separability, they can not used in a general classification scenario, as there will be no key label available. Therefore we also tested the following approaches to estimating a key-independent representation:
 \begin{itemize}
@@ -267,11 +271,11 @@ We investigated 3 classification scenarios: (i) only major keys, (ii) only minor
 The overall range of results is consistent with the results of Tzanetakis and Cook, who ---~ for the complete set with 10 classes (i.e., including the ambiguous samples) using a GMM classifier~--- reported a 23\% classification accuracy for a set of simple pitch histogram features and a 47\% accuracy for 10 MFCCs \cite{tzanetakis_musical_2002}. 
 
 
-%As with any classification task, the feature used to summarize tracks is an extremely important concern. Previous work in this area has shown that timbral features, particularly Mel Frequency Spectrum Coefficients, are especially suited to the task of predicting genre. While MFCCs are suited to picking up on instrumental and timbral difference between genres, some work has shown that they are not totally independent of harmonic or tonal information \cite{li_genre_2011}. Here we investigate the extent to which tonal information can be used to discern genres y examining the distributions of pitch chroma within each of 9 different genres. First we examine the overall distribution of keys for each genre. Next different methods for transposing pitch chroma to a key-independent representation are introduced and we look at the chroma distributions using chroma box plots, inter-genre distance and mulch-dimensional scaling. In the final section we test the degree to which the chroma distribution separate gen-res by performing classification with an SVM using chroma and combined chroma/MFCC features.
+%As with any classification task, the feature used to summarize tracks is an important concern. Previous work in this area has shown that timbral features, particularly Mel Frequency Spectrum Coefficients, are especially suited to the task of predicting genre. While MFCC are suited to picking up on instrumental and timbral difference between genres, some work has shown that they are not totally independent of harmonic or tonal information \cite{li_genre_2011}. Here we investigate the extent to which tonal information can be used to discern genres y examining the distributions of pitch chroma within each of 9 different genres. First we examine the overall distribution of keys for each genre. Next different methods for transposing pitch chroma to a key-independent representation are introduced and we look at the chroma distributions using chroma box plots, inter-genre distance and mulch-dimensional scaling. In the final section we test the degree to which the chroma distribution separate gen-res by performing classification with an SVM using chroma and combined chroma/MFCC features.
 
 
 %To investigate this effect, we train and evaluate a Support Vector Machine using libSVM \cite{chang_libsvm:_2011}.
-%The SVM hyper-parameters (C, γ) representing the margin and kernel widths were tuned using a grid-search and 5-fold cross validation on a separate stratified split of the data (I HAVE NO IDEA WHAT THAT MEANS). Best performance was achieved using a non-linear SVM with Radial Basis Function kernel.
+%The SVM hyper-parameters (C, \gamma) representing the margin and kernel widths were tuned using a grid-search and 5-fold cross validation on a separate stratified split of the data (I HAVE NO IDEA WHAT THAT MEANS). Best performance was achieved using a non-linear SVM with Radial Basis Function kernel.
 %We investigated the following scenarios: (i) the whole key-labeled data set with no differentiation between major and minor and (ii) the major/minor subsets individually in order to control for the differences in major/minor distribution between keys. 
 %10-fold cross validation  accuracy was calculated using the raw pitch chroma, max-shifted key profile, the Fourier pitch chroma and the key profile shifted according to the ground truth. We compare the results to a classifier based on a set of MFCC features as well as a combination of MFCC and key profile features. MFCC features were calculated according to REFXXX: WHAT COMPUTATION DID YOU USE?. The mean and standard deviation of $12$ MFCCs form a $24$-dimensional timbre feature vector. %as follows: for each block we compute 12 MFCC coefficients, then take the mean and standard deviation over the whole song. These features are then concatenated to form a 24 dimensional feature vector.
 
