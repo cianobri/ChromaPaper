@@ -8,6 +8,8 @@
 \usepackage{graphicx}
 \usepackage{url}
 \usepackage{units}
+\usepackage{booktabs}
+\usepackage{dcolumn}
 
 % Title.
 % ------
@@ -148,7 +150,7 @@ Temperley's key profiles are extracted from symbolic data  rather than from audi
 \begin{figure*}[tb]
     \includegraphics[scale=.2]{graph/allMajChroma+Krum+Temp}
     \includegraphics[scale=.2]{graph/allMinChroma+Krum+Temp}
-	\caption{Major (left) and minor (right) key profiles for the complete data set, in comparison with two widely-used key profiles (Krumhansl and Temperley).}
+	\caption{Major (left) and minor (right) key profiles for the complete data set, in comparison with two widely-used key profiles (Krumhansl in red and Temperley in blue).}
 	\label{fig:OverallKeyProfiles}
 \end{figure*}
 
@@ -167,7 +169,7 @@ The major distribution exhibits mostly a similar pattern with prominent spikes a
 The distributions for minor have, compared to the major distributions, less distinct minima for non-scale pitches; especially the Blues distribution is ---~with the exception of root note and fifth~--- basically flat.
 
 \subsection{Inter-genre distances}
-In order to evaluate how distinct genres are with respect to their key profile, distance between all profiles were calculated using the Manhattan distance as shown in Figs.~\ref{fig:distance_major} and \ref{fig:distance_minor}. Genres for which the number of examples were less than 30 are grayed out. The labels are as follows: B is blues, C country, D disco, H hip-hop, J jazz, M metal, P pop, Rg Reggae, Rk is rock, K is the Krumhansl key profile and T the Temperley profile \cite{temperley_tonal_2007}.
+In order to evaluate how distinct genres are with respect to their key profile, distance between all profiles were calculated using the Manhattan distance as shown in Figs.~\ref{fig:distance_major} and \ref{fig:distance_minor}. Genres for which the number of examples were less than 30 are grayed out. The labels are as follows: B is blues, C country, D disco, H hip-hop, J jazz, M metal, P pop, Rg Reggae, Rk is rock, K is the Krumhansl key profile, T the Temperley profile \cite{temperley_tonal_2007} and finally the overall median major/minor pitch profiles are denoted by Mdn.
 \begin{table}
 \centering
 \resizebox{\columnwidth}{!}{%
@@ -263,12 +265,12 @@ While the KP1 feature (shifted by ground truth) are sufficient to prove or dispr
         The overall pitch chroma of each song is shifted by the index of the maximum of this pitch chroma. Detecting the index of the maximum can be interpreted as the simplest possible root note estimation.
     \item   \textbf{KP2: Fourier transform}\\
         The shift dependent on the root note can be understood as the phase of the pitch chroma. The magnitude spectrum of the extracted pitch chroma is thus a phase-independent (and therefore root-note independent) representation. MAYBE IT MAKES SENSE TO RESORT THE PITCH CLASSES LIKE YOU DID IN YOUR KEY DISTRIBUTION PLOT BEFORE THE FFT?? %Firstly, for a given pitch chroma vector the mean over all bins is calculated and is subtracted from each component. 
-    \item   \textbf{KP4: Transposition by ground truth}\\
+    \item   \textbf{KP3: Transposition by ground truth}\\
         The overall pitch chroma of each song is shifted by the root note index annotated in the ground truth.
 \end{itemize}
 
 We investigated 3 classification scenarios: (i) only major keys, (ii) only minor keys, and (iii) the whole key-labeled data set without any differentiation between major and minor. All scenarios were carried out with the individual key profile features as well as with the combination of MFCCs and these features. The presented results are computed with 10-fold cross validation.
-The overall range of results is consistent with the results of Tzanetakis and Cook, who ---~ for the complete set with 10 classes (i.e., including the ambiguous samples) using a GMM classifier~--- reported a 23\% classification accuracy for a set of simple pitch histogram features and a 47\% accuracy for 10 MFCCs \cite{tzanetakis_musical_2002}. 
+The overall range of results is consistent with the results of Tzanetakis and Cook, who ---~ for the complete set with 10 classes (i.e., including the ambiguous samples) using a GMM classifier~--- reported a 23\% classification accuracy for a set of simple pitch histogram features and a 47\% accuracy for 10 MFCC \cite{tzanetakis_musical_2002}. 
 
 
 %As with any classification task, the feature used to summarize tracks is an important concern. Previous work in this area has shown that timbral features, particularly Mel Frequency Spectrum Coefficients, are especially suited to the task of predicting genre. While MFCC are suited to picking up on instrumental and timbral difference between genres, some work has shown that they are not totally independent of harmonic or tonal information \cite{li_genre_2011}. Here we investigate the extent to which tonal information can be used to discern genres y examining the distributions of pitch chroma within each of 9 different genres. First we examine the overall distribution of keys for each genre. Next different methods for transposing pitch chroma to a key-independent representation are introduced and we look at the chroma distributions using chroma box plots, inter-genre distance and mulch-dimensional scaling. In the final section we test the degree to which the chroma distribution separate gen-res by performing classification with an SVM using chroma and combined chroma/MFCC features.
@@ -280,16 +282,48 @@ The overall range of results is consistent with the results of Tzanetakis and Co
 %10-fold cross validation  accuracy was calculated using the raw pitch chroma, max-shifted key profile, the Fourier pitch chroma and the key profile shifted according to the ground truth. We compare the results to a classifier based on a set of MFCC features as well as a combination of MFCC and key profile features. MFCC features were calculated according to REFXXX: WHAT COMPUTATION DID YOU USE?. The mean and standard deviation of $12$ MFCCs form a $24$-dimensional timbre feature vector. %as follows: for each block we compute 12 MFCC coefficients, then take the mean and standard deviation over the whole song. These features are then concatenated to form a 24 dimensional feature vector.
 
 Table~\ref{tab:accuracyPC} summarizes the results of the SVM classification for the different key profile computations, and Tab.~\ref{tab:accuracyPC+MFCC} shows the mode-independent results when combined with the MFCC features. LET'S MAKE ONE BIG TABLE AND ALSO CALCULATE ALL THE MFCC-RELATED VALUES FOR MAJOR AND MINOR AS WELL. ALSO RENAME THE FEATURES TO KPX. AND WE NEED THE ZEROR CLASSIFIER.
-\begin{table}[tb]
-    \includegraphics[scale=.4]{graph/accuracyPC}
-	\caption{Classification accuracy for different key profile computations}
-	\label{tab:accuracyPC}
+\begin{table}
+\begin{center}
+    \begin{tabular}{|l|l|l|l|}
+      \hline 
+	\bf Feature & \bf Major & \bf Minor & \bf All\\
+	\hline
+	KP0 & 35.35 ± 2.53 & 37.90 ± 1.39 & 35.04 ± 1.97\\
+	\hline
+	KP1 & 37.24 ± 2.35 & 34.72 ± 2.21 & 35.91 ± 1.65\\
+	\hline
+	KP2 & 37.74 ± 2.29 & 36.36 ± 2.58 & 32.36 ± 2.08\\
+	\hline
+	KP3 & 40.33 ± 2.04 & 39.66 ± 3.33 & 33.83 ± 0.92\\
+ 	\hline
+
+    \end{tabular}
+    \caption{Classification accuracy for different key profile computations.}
+  \end{center}
 \end{table}
-\begin{table}[tb]
-    \includegraphics[scale=.4]{graph/accuracyPC+MFCC}
-	\caption{Classification accuracy for different key profile computations in combination with MFCC features}
-	\label{tab:accuracyPC+MFCC}
+
+\begin{table}
+\begin{center}
+    \begin{tabular}{|l|l|}
+      \hline 
+	\bf Feature & \bf Accuracy\\
+	\hline
+	MFCC & 55.01 ± 2.96\\
+	\hline
+	MFCC+KP01 & 59.31 ± 2.08\\
+	\hline
+	MFCC+KP1 & 59.14 ± 1.70\\
+	\hline
+	MFCC+KP2 & 57.93 ± 1.66\\
+ 	\hline
+	MFCC+KP3 & 59.94 ± 2.02\\
+ 	\hline
+
+    \end{tabular}
+    \caption{Classification accuracy for different key profile computations in cobmbination with MFCC features.}
+  \end{center}
 \end{table}
+
 %MAYBE INCLUDE A 'BASELINE' CLASSIFICATION BASED ONLY ON THE KEY (NOT THE PITCH CHROMA) HERE FOR COMPARISON???
 
 Figures \ref{fig:confMatMajPC}, \ref{fig:confMatMinPC}, and \ref{fig:confPC+MFCC} display the confusion matrices of the classification results. PLEASE ADD ANOTHER ROW TO THE MATRICES WITH THE SUM OVER COLS - WE HAVE TO REDO ALL OF THESE ANYWAY, WE DONT WANT THEM AS PNGs.
