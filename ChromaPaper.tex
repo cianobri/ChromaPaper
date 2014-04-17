@@ -257,7 +257,7 @@ Overall, Country and Jazz (major), and Blues (minor) are on average most dissimi
 Musical genre recognition is a well studied field in MIR \cite{fu_survey_2011}. The most widely and successfully used features in this area are timbre features such as Mel Frequency Cepstral Coefficients (MFCC). MFCC seem well suited to picking up on instrumental and timbral differences between genres, although they are not totally independent of harmonic and tonal properties \cite{li_genre_2011}.
 While the distance results indicate what genres are most similar and dissimilar, it does not allow an interpretation as to whether the genres distances do actually help to separate genres. In order to investigate how separable  our genre-specific key profiles are, we train an SVM classifier with our features (see Sect.~\ref{sec:featureset}) and compare the results with an MFCC-based classifier. The MFCC were calculated according to REFXXX: WHAT COMPUTATION DID YOU USE?. The mean and standard deviation of $12$ MFCC form a $24$-dimensional timbre feature vector.We used libSVM  \cite{chang_libsvm:_2011} and picked the SVM parameters with a grid search and 5-fold cross validation on a separate stratified split of the data. The classification is carried out for the $9$ classes described above.
 
-While the KP1 feature (shifted by ground truth) are sufficient to prove or disprove separability, they can not used in a general classification scenario, as there will be no key label available. Therefore we also tested the following approaches to estimating a key-independent representation:
+While the KP3 feature (shifted by ground truth) are sufficient to prove or disprove separability, they can not used in a general classification scenario, as there will be no key label available. Therefore we also tested the following approaches to estimating a key-independent representation:
 \begin{itemize}
     \item   \textbf{KP0: Unshifted}\\
         The overall pitch chroma of each song is used as extracted.
@@ -281,50 +281,40 @@ The overall range of results is consistent with the results of Tzanetakis and Co
 %We investigated the following scenarios: (i) the whole key-labeled data set with no differentiation between major and minor and (ii) the major/minor subsets individually in order to control for the differences in major/minor distribution between keys. 
 %10-fold cross validation  accuracy was calculated using the raw pitch chroma, max-shifted key profile, the Fourier pitch chroma and the key profile shifted according to the ground truth. We compare the results to a classifier based on a set of MFCC features as well as a combination of MFCC and key profile features. MFCC features were calculated according to REFXXX: WHAT COMPUTATION DID YOU USE?. The mean and standard deviation of $12$ MFCCs form a $24$-dimensional timbre feature vector. %as follows: for each block we compute 12 MFCC coefficients, then take the mean and standard deviation over the whole song. These features are then concatenated to form a 24 dimensional feature vector.
 
-Table~\ref{tab:accuracyPC} summarizes the results of the SVM classification for the different key profile computations, and Tab.~\ref{tab:accuracyPC+MFCC} shows the mode-independent results when combined with the MFCC features. LET'S MAKE ONE BIG TABLE AND ALSO CALCULATE ALL THE MFCC-RELATED VALUES FOR MAJOR AND MINOR AS WELL. ALSO RENAME THE FEATURES TO KPX. AND WE NEED THE ZEROR CLASSIFIER.
+Table~\ref{tab:accuracyPC} summarizes the results of the SVM classification for the different key profile computations and how they perform when combined with the MFCCs. 
 \begin{table}
 \begin{center}
+\resizebox{\columnwidth}{!}{%
     \begin{tabular}{|l|l|l|l|}
       \hline 
 	\bf Feature & \bf Major & \bf Minor & \bf All\\
 	\hline
-	KP0 & 35.35 ± 2.53 & 37.90 ± 1.39 & 35.04 ± 1.97\\
+	KP0 & 35.35 $\pm$ 2.53 & 37.90 $\pm$ 1.39 & 35.04 $\pm$ 1.97\\
 	\hline
-	KP1 & 37.24 ± 2.35 & 34.72 ± 2.21 & 35.91 ± 1.65\\
+	KP1 & 37.24 $\pm$ 2.35 & 34.72 $\pm$ 2.21 & 35.91 $\pm$ 1.65\\
 	\hline
-	KP2 & 37.74 ± 2.29 & 36.36 ± 2.58 & 32.36 ± 2.08\\
+	KP2 & 37.74 $\pm$ 2.29 & 36.36 $\pm$ 2.58 & 32.36 $\pm$ 2.08\\
 	\hline
-	KP3 & 40.33 ± 2.04 & 39.66 ± 3.33 & 33.83 ± 0.92\\
+	KP3 & 40.33 $\pm$ 2.04 & 39.66 $\pm$ 3.33 & 33.83 $\pm$ 0.92\\
+ 	\hline\hline
+	MFCC &&& 55.01 $\pm$ 2.96\\
+	\hline
+	KP0+MFCC &&& 59.31 $\pm$ 2.08\\
+	\hline
+	KP1+MFCC &&& 59.14 $\pm$ 1.70\\
+	\hline
+	KP2+MFCC &&& 57.93 $\pm$ 1.66\\
+ 	\hline
+	KP3+MFCC &&& 59.94 $\pm$ 2.02\\
  	\hline
 
     \end{tabular}
-    \caption{Classification accuracy for different key profile computations.}
+    }
+    \caption{Classification accuracy for different feature combinations.}
     \label{tab:accuracyPC}
   \end{center}
 \end{table}
 
-\begin{table}
-\begin{center}
-    \begin{tabular}{|l|l|}
-      \hline 
-	\bf Feature & \bf Accuracy\\
-	\hline
-	MFCC & 55.01 ± 2.96\\
-	\hline
-	MFCC+KP01 & 59.31 ± 2.08\\
-	\hline
-	MFCC+KP1 & 59.14 ± 1.70\\
-	\hline
-	MFCC+KP2 & 57.93 ± 1.66\\
- 	\hline
-	MFCC+KP3 & 59.94 ± 2.02\\
- 	\hline
-
-    \end{tabular}
-    \caption{Classification accuracy for different key profile computations in cobmbination with MFCC features.}
-    \label{tab:accuracyPC+MFCC}
-  \end{center}
-\end{table}
 
 %MAYBE INCLUDE A 'BASELINE' CLASSIFICATION BASED ONLY ON THE KEY (NOT THE PITCH CHROMA) HERE FOR COMPARISON???
 
