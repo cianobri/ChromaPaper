@@ -84,7 +84,7 @@ The number of annotated files therefore reflects the difficulty of unambiguously
 	\label{fig:confPC+MFCC}
 \end{figure}
 
-Figure \ref{fig:KeyDistributionPerGenre} gives a more detailed visualization of the key distribution per genre with the root notes sorted with respect to the circle of fifths and major modes (left) separated from minor modes (right). 
+Figure \ref{fig:KeyDistributionPerGenre} gives a more detailed visualization of the key distribution per genre with the tonics sorted with respect to the circle of fifths and major modes (left) separated from minor modes (right). 
 \begin{figure}
     \includegraphics[scale=.2]{graph/key_distribution_colour_legend}
 	\caption{Key distribution per genre}
@@ -97,7 +97,7 @@ The relation of major vs.\ minor modes is very skewed for blues and metal (predo
 
 It is worth noting that Li and Chan presented another set of key annotations for the GTZAN data set \cite{li_genre_2011}. An examination of the two independent annotations reveals some disagreements between the two annotations: overall, about $85$ percent of the data is labeled identically. 
 %ICH VERSTEHE DIE ZAHLEN HIER NICHT: 67 + 119 IST DOCH MEHR ALS 15\%??%
-Of the differences where there was disagreement on whether one key was clearly identifiable or not, the majority were found in the Blues genre with 67 out 127 total disagreements of this type. If we consider only examples where both analyses agreed a modulation had \textit{not} occurred, there was a total of 119 disagreements. The most common differences were: major/relative-minor confusion (38), root/fifth confusion (35) and major/minor confusion (13).
+Of the differences where there was disagreement on whether one key was clearly identifiable or not, the majority were found in the Blues genre with 67 out 127 total disagreements of this type. If we consider only examples where both analyses agreed a modulation had \textit{not} occurred, there was a total of 119 disagreements. The most common differences were: major/relative-minor confusion (38), tonic/fifth confusion (35) and major/minor confusion (13).
 %\begin{itemize}
     %\item   blues: $98$ vs.\ $31$ (Li) annotated tracks
     %\item   disco: $21$ differences between the two data sets
@@ -105,7 +105,7 @@ Of the differences where there was disagreement on whether one key was clearly i
 %The genre country showed only $1$ difference. 
 
 \section{Feature extraction}\label{sec:pitch_chroma}
-We extract the key profiles per file. We use the term key profile for the overall, root-note independent pitch chroma per file. The detailed extraction is explained below.
+We extract the key profiles per file. We use the term key profile for the overall, tonic independent pitch chroma per file. The detailed extraction is explained below.
 
 \subsection{Pitch chroma}\label{subsec:pc_extract}
 The pitch chroma is a commonly used feature in the field of Music Information Retrieval (MIR), because it is a compact, robust, and mostly timbre-independent representation of the pitch content  \cite{muller_information_2007}. It is a twelve-dimensional histogram-like octave-independent vector showing the ``strength'' of the 12 semitone classes (C, C\#, D, ..., B). It is computed by converting the spectrum to semi-tone bands and summing the energy of all bands with the distance of an octave \cite{fujishima_realtime_1999}. 
@@ -118,7 +118,7 @@ The pitch chroma is extracted at a sample rate of \unit[10]{kHz} over a range of
 
 
 \subsection{Key profiles}\label{sec:featureset}
-We assume that the key profile of a song in the same mode (major or minor) should be similar between songs within one genre, but is shifted circularly to the song's root note. Under this assumption, we can ``convert'' each pitch to a key-profile by applying a circular shift to make it root-note independent. In other words, the key profile is the root note independent pitch distribution (e.g., the pitch profile of a song in A-Maj or a-min is circularly shifted by $9$ indices to the left so that the bin of pitch class A lands on the first index).
+We assume that the key profile of a song in the same mode (major or minor) should be similar between songs within one genre, but is shifted circularly to the song's tonic. Under this assumption, we can ``convert'' each pitch to a key-profile by applying a circular shift to make it tonic independent. In other words, the key profile is the tonic independent pitch distribution (e.g., the pitch profile of a song in A-Maj or a-min is circularly shifted by $9$ indices to the left so that the bin of pitch class A lands on the first index).
 
 %A problem with using a pitch chroma approach is that the overall tonality of each song may dominate any between-genre differences; because the distribution of major and minor keys are not the same for each genre, songs might be classified according to their key using this method. For example pitch chroma extracted from minor tracks would be classified as Metal, since the averaged pitch chroma for Metal would be obtained by averaging pitch chroma extracted from predominantly minor tracks. This is an inherent problem in using pitch chroma as op-posed to more often used timbral features like MFCCs and in order to account for this we processed major and minor tracks separately. Another consideration revealed in the analysis of the data set is that the the key-labels are not uniformly distributed within each key. For example the majority of songs in the keys of A and E-minor are in the Rock and Metal genres. 
 
@@ -148,9 +148,9 @@ The key profiles of the six most populated genres are plotted in Fig.~\ref{fig:S
 	\label{fig:SpecificKeyProfiles}
 \end{figure*}
 
-The major distribution exhibits mostly a similar pattern with prominent spikes at the root note and the fifth. The Jazz distribution is one example that is noticeably different: it is rather flat and more uniform than the distributions of other genre's. It is to be expected that Jazz shows a wider range of pitches and harmonies and thus a more uniform pitch class distribution.
+The major distribution exhibits mostly a similar pattern with prominent spikes at the tonic and the fifth. The Jazz distribution is one example that is noticeably different: it is rather flat and more uniform than the distributions of other genre's. It is to be expected that Jazz shows a wider range of pitches and harmonies and thus a more uniform pitch class distribution.
 
-The distributions for minor have, compared to the major distributions, less distinct minima for non-scale pitches; especially the Blues distribution is ---~with the exception of root note and fifth~--- basically flat.
+The distributions for minor have, compared to the major distributions, less distinct minima for non-scale pitches; especially the Blues distribution is ---~with the exception of tonic and fifth~--- basically flat.
 
 \begin{table}[H]
 \centering
@@ -257,16 +257,16 @@ To further explore the genre relationships we use Multidimensional Scaling, a me
 Musical genre recognition is a well studied field in MIR \cite{fu_survey_2011}. The most widely and successfully used features in this area are timbre features such as Mel Frequency Cepstral Coefficients (MFCC). MFCC seem well suited to picking up on instrumental and timbral differences between genres, although they are not totally independent of harmonic and tonal properties \cite{li_genre_2011}.
 While the distance results indicate what genres are most similar and dissimilar, it does not allow an interpretation as to whether the genres distances do actually help to separate genres. In order to investigate how separable  our genre-specific key profiles are, we train an SVM classifier with our features (see Sect.~\ref{sec:featureset}) and compare the results with an MFCC-based classifier. The MFCC were calculated using a freely available MATLAB implementation.\footnote{\url{http://labrosa.ee.columbia.edu/matlab/rastamat/}}The mean and standard deviation of $12$ MFCC form a $24$-dimensional timbre feature vector. We used libSVM  \cite{chang_libsvm:_2011} and picked the SVM parameters with a grid search and 5-fold cross validation on a separate stratified split of the data. The classification is carried out for the $9$ classes described above.
 
-While the KP3 feature (shifted by ground truth root note) are sufficient to prove or disprove separability, they can not used in a general classification scenario, as there will be no key label available. Therefore we also tested the following approaches to estimating a key-independent representation:
+While the KP3 feature (shifted by ground truth tonic) are sufficient to prove or disprove separability, they can not used in a general classification scenario, as there will be no key label available. Therefore we also tested the following approaches to estimating a key-independent representation:
 \begin{itemize}
     \item   \textbf{KP0: Unshifted}\\
         The overall pitch chroma of each song is used as extracted.
     \item   \textbf{KP1: Transposition by max}\\
-        The overall pitch chroma of each song is shifted by the index of the maximum of this pitch chroma. Detecting the index of the maximum can be interpreted as the simplest possible root note estimation.
+        The overall pitch chroma of each song is shifted by the index of the maximum of this pitch chroma. Detecting the index of the maximum can be interpreted as the simplest possible tonic estimation.
     \item   \textbf{KP2: Fourier transform}\\
-        The shift dependent on the root note can be understood as the phase of the pitch chroma. The magnitude spectrum of the extracted pitch chroma is thus a phase-independent (and therefore root-note independent) representation. %Firstly, for a given pitch chroma vector the mean over all bins is calculated and is subtracted from each component. 
+        The shift dependent on the tonic can be understood as the phase of the pitch chroma. The magnitude spectrum of the extracted pitch chroma is thus a phase-independent (and therefore tonic independent) representation. %Firstly, for a given pitch chroma vector the mean over all bins is calculated and is subtracted from each component. 
     \item   \textbf{KP3: Transposition by ground truth}\\
-        The overall pitch chroma of each song is shifted by the root note index annotated in the ground truth.
+        The overall pitch chroma of each song is shifted by the tonic index annotated in the ground truth.
 \end{itemize}
 
 We investigated 3 classification scenarios: (i) only major keys, (ii) only minor keys, and (iii) the whole key-labeled data set without any differentiation between major and minor. All scenarios were carried out with the individual key profile features as well as with the combination of MFCCs and these features. The presented results are computed with 10-fold cross validation.
@@ -324,10 +324,10 @@ The overall range of results is consistent with the results of Tzanetakis and Co
 
 Unsurprisingly, the MFCCs vastly outperformed the key profile features alone. Although not random, the overall classification performance given the key profiles is only mediocre. This indicates that while the key profiles provide genre-specific information, there are still a lot of similarities between genres. The combined feature set results in a slight performance increase in overall accuracy of around 3-4\% indicating that the pitch chroma distributions contain some genre-relevant information. 
 
-For the Major and Minor subsets, we can observe a slight performance increase for the shifted profiles (most notably the KP3 profile, shifted by the ground truth), while this shifting actually results in a small decrease for the overall data set. That indicates that when combining Major and Minor keys in one data set, the root note information is actually more important for classification than the mode, since the root note information has been removed by the shifting. It also indicates that overall, the distances between Major and Minor profiles are larger than the distances between genre profiles. 
+For the Major and Minor subsets, we can observe a slight performance increase for the shifted profiles (most notably the KP3 profile, shifted by the ground truth), while this shifting actually results in a small decrease for the overall data set. That indicates that when combining Major and Minor keys in one data set, the tonic information is actually more important for classification than the mode, since the tonic information has been removed by the shifting. It also indicates that overall, the distances between Major and Minor profiles are larger than the distances between genre profiles. 
 
 It should be pointed out that neither the shifting by ground truth nor the split of the data set into Major and Minor are a realistic classification scenario, since this data is not available (or could be only be estimating the key before classifying, with the repercussion of adding an additional source of error to the analysis). 
-Still, the objective of this analysis was to investigate the separability of root-note independent key profiles; we can at least observe some inter-genre separability.
+Still, the objective of this analysis was to investigate the separability of tonic independent key profiles; we can at least observe some inter-genre separability.
 
 
 %One fact revealed in this analysis is the relatively small performance increase observed by sorting the chroma, even when using the ground truth directly. By sorting the chroma any information on the genre given by the key has been removed (for example as a prior estimate based on the key distributions in each genre) which would, it is hoped, reveal any differences in the distributions. Splitting the data into major and minor results in slightly improved accuracy, however in this case we have added information by using the ground truth and realistically harmony estimation should be done automatically which would be an additional source of error. 
@@ -387,7 +387,7 @@ The results agree with the MDS plot in \secref{keyprof} in that the most distant
   \end{center}
 \end{table}
 \section{Conclusion}
-We presented an analysis of key profiles for different genres and investigated inter-genre distances and separability with a number of methods, including, distance measures, Multi-Dimensional Scaling, and classification. The results show that some genres may indeed have distinct key profiles, but overall, the similarities between key profiles seems to outweigh the genre differences. The classification results how modest improvements by using the shifted key profiles instead of the average pitch chroma, indicating the usefulness of the root-note-normalized pitch chroma. These improvements, however, disappear when Major and Minor samples are not treated separately (which, in the case of classification, would be the normal case as the key is unknown). Possible other reasons for the very slight accuracy improvements might be found in the data set (definition of genres, sample selection, size, other deficiencies), but in general we believe that the results make sense and are conceivable.
+We presented an analysis of key profiles for different genres and investigated inter-genre distances and separability with a number of methods, including, distance measures, Multi-Dimensional Scaling, and classification. The results show that some genres may indeed have distinct key profiles, but overall, the similarities between key profiles seems to outweigh the genre differences. The classification results how modest improvements by using the shifted key profiles instead of the average pitch chroma, indicating the usefulness of the tonic-normalized pitch chroma. These improvements, however, disappear when Major and Minor samples are not treated separately (which, in the case of classification, would be the normal case as the key is unknown). Possible other reasons for the very slight accuracy improvements might be found in the data set (definition of genres, sample selection, size, other deficiencies), but in general we believe that the results make sense and are conceivable.
 
 Overall, the results support the notion of using genre-independent profiles as inter-genre differences are small and inter-song differences between profiles seem to be in a similar range. 
 
