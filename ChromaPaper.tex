@@ -75,7 +75,7 @@ After we described the data set (\secref{sec:dataset}) and the feature extractio
 \section{Data set}\label{sec:dataset}
 The data set used was the GTZAN collection.\footnote{\url{http://marsyas.info/download/data_sets}}While this set is old and it is clear that it has its disadvantages \cite{sturm_analysis_2012}, it is a well-known, widely-used, and, last but not least, easily available set for genre classification tasks. It consists of a collection of $1000$ song excerpts divided into ten genres: Blues, Classical, Rock, Reggae, Pop, Metal, Rock, Jazz, Country and Hip Hop. 
 Key annotations for the track are publicly available. %\footnote{\url{github.com/alexanderlerch/data_set}} 
-Instances that included key modulations or with a not easily identifiable key have been omitted from the labels. For example, none of the excerpts from the Classical genre is not annotated. 
+Instances that included key modulations or with a not easily identifiable key have been omitted from the labels. For example, none of the excerpts from the Classical genre are annotated. 
 The number of annotated files therefore reflects the difficulty of unambiguously identifying the key; Figure~\ref{tab:NumberOfAnnotatedDataSetEntries} gives an overview of the number of annotated files and their mode. 
 
 \begin{figure}[tb]\label{tab:NumberOfAnnotatedDataSetEntries}
@@ -236,7 +236,7 @@ The distributions for minor have, compared to the major distributions, less dist
 \end{table}
 
 \subsection{Inter-genre distances}
-In order to evaluate how distinct genres are with respect to their key profile, distance between all profiles were calculated using the Manhattan distance as shown in Tables~\ref{tab:GenreDistancesMajor} and \ref{tab:GenreDistancesMinor}. Genres for which the number of examples were less than 30 are grayed out. The labels are as follows: B is blues, C country, D disco, H hip-hop, J jazz, M metal, P pop, Rg Reggae, Rk is rock, K is the Krumhansl key profile, T the Temperley profile \cite{temperley_tonal_2007} and finally the overall median major/minor pitch profiles are denoted by Mdn.
+In order to evaluate how distinct genres are with respect to their key profile, distance between all profiles were calculated using the Manhattan distance as shown in Tables~\ref{tab:GenreDistancesMajor} and \ref{tab:GenreDistancesMinor}. Genres for which the number of examples were less than 30 are grayed out. The labels are as follows: B is blues, C country, D disco, H hip-hop, J jazz, M metal, P pop, Rg Reggae, R is rock, K is the Krumhansl key profile, T the Temperley profile \cite{temperley_tonal_2007} and finally the overall median major/minor pitch profiles are denoted by Mdn.
 
 \begin{figure}
     \includegraphics[scale=.2]{graph/MDS_maj_colour}
@@ -245,7 +245,7 @@ In order to evaluate how distinct genres are with respect to their key profile, 
 	\label{fig:MDS}
 \end{figure}
 
-Looking at the distance matrices, we can see that for major keys, the most similar genres are Rock and Pop while the most mutually distinct genres when considering major tracks are Country and Jazz. For minor tracks, Reggae and Pop are the most similar while Reggae and Rock are the most distinct.
+Looking at the distance matrices, we can see that for major keys, the most similar genres are Rock and Pop while the most mutually distinct genres when considering major tracks are Country and Reggae. For minor tracks, Disco and Pop are the most similar while Reggae and Blues are the most distinct.
 
 To further explore the genre relationships we use Multidimensional Scaling, a method for visualizing information contained in an arbitrary distance matrix  by projecting  the data  into a  space of  smaller  dimension while preserving the between-item distances as well as possible i.e. the Euclidean distance in the new space will approximate the dissimilarity in the distance matrix. These plots are presented in Figure~\ref{fig:MDS}. 
 
@@ -324,9 +324,9 @@ The overall range of results is consistent with the results of Tzanetakis and Co
 
 Unsurprisingly, the MFCCs vastly outperformed the key profile features alone. Although not random, the overall classification performance given the key profiles is only mediocre. This indicates that while the key profiles provide genre-specific information, there are still a lot of similarities between genres. The combined feature set results in a slight performance increase in overall accuracy of around 3-4\% indicating that the pitch chroma distributions contain some genre-relevant information. 
 
-For the Major and Minor subsets, we can observe a slight performance increase for the shifted profiles (most notably the KP3 profile, shifted by the ground truth), while this shifting actually results in a small decrease for the overall data set. That indicates that when combining Major and Minor keys in one data set, the tonic information is actually more important for classification than the mode, since the tonic information has been removed by the shifting. It also indicates that overall, the distances between Major and Minor profiles are larger than the distances between genre profiles. 
+For the Major and Minor subsets, we can observe a slight performance increase for the shifted profiles (most notably the KP3 profile, shifted by the ground truth). That indicates that when combining Major and Minor keys in one data set, the tonic information is actually more important for classification than the mode, since the tonic information has been removed by the shifting. It also indicates that overall, the distances between Major and Minor profiles are larger than the distances between genre profiles. 
 
-It should be pointed out that neither the shifting by ground truth nor the split of the data set into Major and Minor are a realistic classification scenario, since this data is not available (or could be only be estimating the key before classifying, with the repercussion of adding an additional source of error to the analysis). 
+It should be pointed out that neither the shifting by ground truth nor the split of the data set into Major and Minor are a realistic classification scenario, since this data is not available (or could be only by estimating the key before classifying, with the repercussion of adding an additional source of error to the analysis). 
 Still, the objective of this analysis was to investigate the separability of tonic independent key profiles; we can at least observe some inter-genre separability.
 
 
@@ -351,7 +351,7 @@ Tables~\ref{tab:confMatMajPC} and \ref{tab:confMatMinPC} display the confusion m
 
 The confusion matrices let us observe a strong tendency for the classifier to choose the majority class. For Major, this is the class country and for Minor the classes metal and blues. 
 The genres with the highest classification  accuracies are country and jazz for Major and blues, hip-hop and metal for minor. 
-The results agree with the MDS plot in \secref{keyprof} in that the most distant genres in that plot seem to receive the highest classification accuracies. Given the overall range of the classification results, however, a more detailed interpretation would be most likely more speculation than based on evidence.
+The results agree with the MDS plot in \secref{keyprof} in that the most distant genres in that plot seem to receive the highest classification accuracies. Given the overall range of the classification results, however, a more detailed interpretation would be most likely more speculative than evidence-based.
 
 \begin{table}
 \begin{center}
@@ -387,7 +387,7 @@ The results agree with the MDS plot in \secref{keyprof} in that the most distant
   \end{center}
 \end{table}
 \section{Conclusion}
-We presented an analysis of key profiles for different genres and investigated inter-genre distances and separability with a number of methods, including, distance measures, Multi-Dimensional Scaling, and classification. The results show that some genres may indeed have distinct key profiles, but overall, the similarities between key profiles seems to outweigh the genre differences. The classification results how modest improvements by using the shifted key profiles instead of the average pitch chroma, indicating the usefulness of the tonic-normalized pitch chroma. These improvements, however, disappear when Major and Minor samples are not treated separately (which, in the case of classification, would be the normal case as the key is unknown). Possible other reasons for the very slight accuracy improvements might be found in the data set (definition of genres, sample selection, size, other deficiencies), but in general we believe that the results make sense and are conceivable.
+We presented an analysis of key profiles for different genres and investigated inter-genre distances and separability with a number of methods, including, distance measures, Multi-Dimensional Scaling, and classification. The results show that some genres may indeed have distinct key profiles, but overall, the similarities between key profiles seems to outweigh the genre differences. The classification results show modest improvements by using the shifted key profiles instead of the average pitch chroma, indicating the usefulness of the tonic-normalized pitch chroma. These improvements, however, disappear when Major and Minor samples are not treated separately (which, in the case of classification, would be the normal case as the key is unknown). Possible other reasons for the very slight accuracy improvements might be found in the data set (definition of genres, sample selection, size, other deficiencies), but in general we believe that the results make sense and are conceivable.
 
 Overall, the results support the notion of using genre-independent profiles as inter-genre differences are small and inter-song differences between profiles seem to be in a similar range. 
 
