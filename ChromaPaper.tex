@@ -1,86 +1,224 @@
-% -----------------------------------------------
-% Template for ISMIR 2014
-% (based on earlier ISMIR templates)
-% -----------------------------------------------
+% ===========================================
+% Template for ICMC 2015 (version2)
+% adapted from earlier LaTeX paper templates for the ICMC, SMC, etc...
+% ===========================================
 
 \documentclass{article}
-\usepackage{ismir2014,amsmath,cite}
-\usepackage{graphicx}
-\usepackage{url}
-\usepackage{units}
-\usepackage{booktabs}
-\usepackage{dcolumn}
+\usepackage{icmc2015template}
+\usepackage{times}
+\usepackage{ifpdf}
+\usepackage{soul}
+\usepackage[english]{babel}
+\usepackage{cite}
 \usepackage{colortbl}
 \usepackage{microtype}
-\usepackage{float}
+\usepackage{units}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%% Some useful packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%% See related documentation %%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage{amsmath} % popular packages from Am. Math. Soc. Please use the 
+%\usepackage{amssymb} % related math environments (split, subequation, cases,
+%\usepackage{amsfonts}% multline, etc.)
+%\usepackage{bm}      % Bold Math package, defines the command \bf{}
+%\usepackage{paralist}% extended list environments
+%%subfig.sty is the modern replacement for subfigure.sty. However, subfig.sty 
+%%requires and automatically loads caption.sty which overrides class handling 
+%%of captions. To prevent this problem, preload caption.sty with caption=false 
+%\usepackage[caption=false]{caption}
+%\usepackage[font=footnotesize]{subfig}
+
+% ====================================================
+% ================ Define title and author names here ===============
+% ====================================================
+%user defined variables
+\def\papertitle{Genre-specific Key Profiles}
+\def\firstauthor{First Author}
+\def\secondauthor{Second Author}
+\def\thirdauthor{Third Author}
+\def\fourthauthor{Fourth Author}
+\def\fifthauthor{Fifth Author}
+\def\sixthauthor{Sixth Author}
+
+% adds the automatic
+% Saves a lot of ouptut space in PDF... after conversion with the distiller
+% Delete if you cannot get PS fonts working on your system.
+
+% pdf-tex settings: detect automatically if run by latex or pdflatex
+\newif\ifpdf
+\ifx\pdfoutput\relax
+\else
+   \ifcase\pdfoutput
+      \pdffalse
+   \else
+      \pdftrue
+\fi
+
+\ifpdf % compiling with pdflatex
+  \usepackage[pdftex,
+    pdftitle={\papertitle},
+    pdfauthor={\firstauthor, \secondauthor, \thirdauthor},
+    bookmarksnumbered, % use section numbers with bookmarks
+    pdfstartview=XYZ % start with zoom=100% instead of full screen; 
+                     % especially useful if working with a big screen :-)
+   ]{hyperref}
+  %\pdfcompresslevel=9
+
+  \usepackage[pdftex]{graphicx}
+  % declare the path(s) where your graphic files are and their extensions so 
+  %you won't have to specify these with every instance of \includegraphics
+  \graphicspath{{./figures/}}
+  \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+
+  \usepackage[figure,table]{hypcap}
+
+\else % compiling with latex
+  \usepackage[dvips,
+    bookmarksnumbered, % use section numbers with bookmarks
+    pdfstartview=XYZ % start with zoom=100% instead of full screen
+  ]{hyperref}  % hyperrefs are active in the pdf file after conversion
+
+  \usepackage[dvips]{epsfig,graphicx}
+  % declare the path(s) where your graphic files are and their extensions so 
+  %you won't have to specify these with every instance of \includegraphics
+  \graphicspath{{./figures/}}
+  \DeclareGraphicsExtensions{.eps}
+
+  \usepackage[figure,table]{hypcap}
+\fi
+
+%setup the hyperref package - make the links black without a surrounding frame
+\hypersetup{
+    colorlinks,%
+    citecolor=black,%
+    filecolor=black,%
+    linkcolor=black,%
+    urlcolor=black
+}
+
+
+% ====================================================
+% ================ Title and author info starts here ===============
+% ====================================================
 % Title.
 % ------
-\title{Genre-specific Key Profiles}
+\title{\papertitle}
 
+% Authors
+% Please note that submissions are anonymous, therefore 
+% authors' names should not be VISIBLE in your paper submission.
+% They should only be included in the camera-ready version of accepted papers.
+% uncomment and use the appropriate section (1, 2 or 3 authors)
+%
 % Single address
 % To use with only one author or several with the same address
 % ---------------
 %\oneauthor
-% {Names should be omitted for double-blind reviewing}
-% {Affiliations should be omitted for double-blind reviewing}
+%   {\firstauthor} {Affiliation \\ %
+%     {\tt \href{mailto:author@unt.edu}{author@unt.edu}}}
 
-% Two addresses
-% --------------
-%\twoauthors
-%  {First author} {School \\ Department}
-%  {Second author} {Company \\ Address}
+%Two addresses
+% the default spacing is 1.5in, but this can be reduced to 0.5in or less, if needed
+%--------------
+% \twoauthors
+%   {1.5in}
+%   {\firstauthor} {Affiliation1 \\  %
+%     {\tt \href{mailto:author1@unt.edu}{author1@unt.edu}}}
+%   {\secondauthor} {Affiliation2 \\  %
+%     {\tt \href{mailto:author2@unt.edu}{author2@unt.edu}}}
 
 % Three addresses
+% the default spacing is 0.5in, but this can be reduced to 0.3in or less, if needed
 % --------------
-\threeauthors
-  {First author} {Affiliation1 \\ {\tt author1@ismir.edu}}
-  {Second author} {\bf Retain these fake authors in\\\bf submission to preserve the formatting}
-  {Third author} {Affiliation3 \\ {\tt author3@ismir.edu}}
+ \threeauthors
+   {0.5in}
+   {\firstauthor} {Affiliation1 \\ %
+     {\tt \href{mailto:author1@unt.edu}{author1@unt.edu}}}
+   {\secondauthor} {Affiliation2 \\ %
+     {\tt \href{mailto:author2@unt.edu}{author2@unt.edu}}}
+   {\thirdauthor} { Affiliation3 \\ %
+     {\tt \href{mailto:author3@unt.edu}{author3@unt.edu}}}
 
 % Four addresses
+% the default spacing is 1.5in, but this can be reduced to 0.5in or less, if needed
 % --------------
-%\fourauthors
-%  {First author} {Affiliation1 \\ {\tt author1@ismir.edu}}
-%  {Second author}{Affiliation2 \\ {\tt author2@ismir.edu}}
-%  {Third author} {Affiliation3 \\ {\tt author3@ismir.edu}}
-%  {Fourth author} {Affiliation4 \\ {\tt author4@ismir.edu}}
+% \fourauthors
+%   {1.5in}
+%   {\firstauthor} {Affiliation1 \\ %
+%     {\tt \href{mailto:author1@unt.edu}{author1@unt.edu}}}
+%   {\secondauthor} {Affiliation2 \\ %
+%     {\tt \href{mailto:author2@unt.edu}{author2@unt.edu}}}
+%   {\thirdauthor} { Affiliation3 \\ %
+%     {\tt \href{mailto:author3@unt.edu}{author3@unt.edu}}}
+%   {\fourthauthor} { Affiliation4 \\ %
+%     {\tt \href{mailto:author4@unt.edu}{author4@unt.edu}}}
 
+% Five addresses
+% the default spacing is 0.5in, but this can be reduced to 0.3in or less, if needed
+% --------------
+% \fiveauthors
+%   {0.5in}
+%   {\firstauthor} {Affiliation1 \\ %
+%     {\tt \href{mailto:author1@unt.edu}{author1@unt.edu}}}
+%   {\secondauthor} {Affiliation2 \\ %
+%     {\tt \href{mailto:author2@unt.edu}{author2@unt.edu}}}
+%   {\thirdauthor} { Affiliation3 \\ %
+%     {\tt \href{mailto:author3@unt.edu}{author3@unt.edu}}}
+%   {\fourthauthor} { Affiliation4 \\ %
+%     {\tt \href{mailto:author4@unt.edu}{author4@unt.edu}}}
+%   {\fifthauthor} { Affiliation5 \\ %
+%     {\tt \href{mailto:author5@unt.edu}{author5@unt.edu}}}
+
+% Six addresses
+% the default spacing is 0.5in, but this can be reduced to 0.3in or less, if needed
+% --------------
+% \sixauthors
+%   {0.5in}
+%   {\firstauthor} {Affiliation1 \\ %
+%     {\tt \href{mailto:author1@unt.edu}{author1@unt.edu}}}
+%   {\secondauthor} {Affiliation2 \\ %
+%     {\tt \href{mailto:author2@unt.edu}{author2@unt.edu}}}
+%   {\thirdauthor} { Affiliation3 \\ %
+%     {\tt \href{mailto:author3@unt.edu}{author3@unt.edu}}}
+%   {\fourthauthor} { Affiliation4 \\ %
+%     {\tt \href{mailto:author4@unt.edu}{author4@unt.edu}}}
+%   {\fifthauthor} { Affiliation5 \\ %
+%     {\tt \href{mailto:author5@unt.edu}{author5@unt.edu}}}
+%   {\sixthauthor} { Affiliation6 \\ %
+%     {\tt \href{mailto:author6@unt.edu}{author6@unt.edu}}}
+
+
+% ====================================================
+% =============== The document content starts here ===============
+% ====================================================
 \begin{document}
 %
+\capstartfalse
 \maketitle
+\capstarttrue
 %
 \begin{abstract}
 The most common approaches to the automatic recognition of musical key are template-based, i.e., an extracted pitch chroma vector is compared to a template key profile in order to identify the most similar key. General as well as domain-specific templates have been used in the past, but to the authors' best knowledge there has been no study that evaluated genre-specific key profiles extracted from the audio signal.
 We investigate the pitch chroma distributions for 9 different genres, their distances, and the degree to which these genres can be identified using these distributions when utilizing different strategies for achieving key-invariance. 
 \end{abstract}
 %
+
 \section{Introduction}\label{sec:introduction}
-The $12$-dimensional pitch chroma is a popular feature in music information retrieval, as it is a compact and robust representation of the tonal content of the audio signal. For example, automatic key detection systems commonly use the average pitch chroma of a music file in order to detect the musical key by comparing the extracted pitch chroma to a template key profile.  In the literature, different strategies for deriving these templates have been proposed, such as based on human tonality perception \cite{krumhansl_cognitive_1990}, using diatonic models \cite{izmirli_template_2005}, extraction from MIDI data \cite{temperley_pitch-class_2008}, and extraction from audio data \cite{van_de_par_musical_2006}. 
+The pitch chroma is a popular feature in music information retrieval (MIR), as it is a compact and robust representation of the tonal content of the audio signal. For example, automatic key detection systems commonly use the average pitch chroma of a music file in order to detect the musical key by comparing the extracted pitch chroma to a template key profile.  In the literature, different strategies for deriving these templates have been proposed, such as based on human tonality perception \cite{krumhansl_cognitive_1990}, using diatonic models \cite{izmirli_template_2005}, extraction from MIDI data \cite{temperley_pitch-class_2008}, and extraction from audio data \cite{van_de_par_musical_2006}. 
 %Pitch chroma are popular feature for many tasks where preserving harmonic information is important. Having decomposed an input into 12 pitch classes, a natural idea is to define templates for quantities of interest $-$ for example chords or musical key $-$ and such templates have used in tasks such as chord\cite{fujishima_realtime_1999}and key detection\cite{temperley_pitch-class_2008}.  In the literature, different strategies for deriving these templates has been tried from audio-data \cite{??} to synthetic midi-data \cite{??}. 
-In this paper we analyze the distributions of key profiles extracted from audio with respect to musical genre. More specifically, we investigate the similarity of genre-specific key profiles and their separability in order to understand the tonal similarity of genres. Given the variety of different templates proposed in the literature, we search for evidence that musical genre impacts the key profile.
-
-After we described the data set (\secref{sec:dataset}) and the feature extraction (\secref{sec:pitch_chroma}), we present the genre-specific key profiles and their inter-genre distances in \secref{keyprof}. \secref{sec:classification} uses an SVM classifier in order to estimate how separable the key profiles actually are, given different strategies for achieving key-invariance of the extracted pitch chromas.
-%In this paper we investigate the distributions of pitch chroma with respect to musical genre using audio data to see to what extent these genres can be distinguished from each other based on their harmonic content alone. Given a data set annotated with both genre and key we examine genre differences with respect to their key-independant pitch class distributions and perform some quantitative analysis by performing classification using these features. Some contributions of this work are: a ground truth key-labelling of the popular GTZAN data set\footnote{\url{http://marsyas.info/download/data_sets}}, an analysis of genre-dependent key distributions and quantitative results of the efficacy of pitch chroma features when combined with widely used timbral features.
-
-%\begin{itemize}
-%    \item   point out usage of pitch histograms/key profiles/pitch class profiles in MIR tasks (genre classification, key detection, anything else)
-%    \item   plot krumanshl vs. various temperley profiles
-%    \item   differences between midi-derived key profiles and audio-derived \cite{purwins_new_2000, gomez_tonal_2006}
-%    \item   what do we want to do here: analyze the differences between audio-based key profiles between genres
-%    \item   how we do it: use a data set that is annotated both with genres and keys, compute/visualize differences, use MDS and classification to analyze %differentiability
-%    \item   how might this data be of use
-%\end{itemize}
+In this paper we analyze the distributions of key profiles extracted from audio with respect to musical genre. The similarity of genre-specific key profiles is measured directly by computing inter-genre distances in Sect.~\ref{keyprof} and indirectly by applying a SVM classifier for testing genre separability through key profiles (Sect.~\ref{sec:classification}). 
+%Given the variety of different key templates proposed in the literature, we search for evidence that musical genre impacts the key profile. 
+%
+%After we described the data set (\secref{sec:dataset}) and the feature extraction (\secref{sec:pitch_chroma}), we present the genre-specific key profiles and their inter-genre distances in \secref{keyprof}. \secref{sec:classification} uses an SVM classifier in order to estimate how separable the key profiles actually are, given different strategies for achieving key-invariance of the extracted pitch chromas.
 
 \section{Data set}\label{sec:dataset}
-The data set used was the GTZAN collection.\footnote{\url{http://marsyas.info/download/data_sets}}While this set is old and it is clear that it has its disadvantages \cite{sturm_analysis_2012}, it is a well-known, widely-used, and, last but not least, easily available set for genre classification tasks. It consists of a collection of $1000$ song excerpts divided into ten genres: Blues, Classical, Rock, Reggae, Pop, Metal, Rock, Jazz, Country and Hip Hop. 
-Key annotations for the track are publicly available. %\footnote{\url{github.com/alexanderlerch/data_set}} 
-Instances that included key modulations or with a not easily identifiable key have been omitted from the labels. For example, none of the excerpts from the Classical genre are annotated. 
-The number of annotated files therefore reflects the difficulty of unambiguously identifying the key; Figure~\ref{tab:NumberOfAnnotatedDataSetEntries} gives an overview of the number of annotated files and their mode. 
+The data set used was the GTZAN collection.\footnote{\url{http://marsyas.info/downloads/datasets.html}} While this set is old and has obvious disadvantages \cite{sturm_analysis_2012}, it is a well-known, widely-used, and, last but not least, easily available set for genre classification tasks. It consists of a collection of $1000$ song excerpts equally divided into ten genres: Blues, Classical, Rock, Reggae, Pop, Metal, Rock, Jazz, Country and Hip Hop. 
+Key annotations for the tracks are publicly available.\footnote{\url{github.com/alexanderlerch/data_set}} Figure~\ref{tab:NumberOfAnnotatedDataSetEntries} gives an overview of the number of annotated files and their mode. The number of annotated files therefore reflects the number of unambiguously identifyable keys.
+For example, none of the excerpts from the Classical genre are annotated. 
 
 \begin{figure}[tb]\label{tab:NumberOfAnnotatedDataSetEntries}
     \includegraphics[scale=.2]{graph/annotated}
-	\caption{Per genre Major/Minor distributions}
+	\caption{Per genre major/minor distributions and number of annotated files}
 	\label{fig:confPC+MFCC}
 \end{figure}
 
@@ -91,13 +229,13 @@ Figure \ref{fig:KeyDistributionPerGenre} gives a more detailed visualization of 
 	\label{fig:KeyDistributionPerGenre}
 \end{figure}
 %The distribution of keys in each genre proved unsurprising.
-The relation of major vs.\ minor modes is very skewed for blues and metal (predominantly minor) as well as country (predominantly major); the genres disco, pop, reggae, and rock have a more balanced distribution between modes. Jazz tracks tend to be clustered around flat keys which are favored by trumpet and saxophone players. The keys for country cluster around C-Maj with a tendency to sharp keys. The majority of metal tracks are in either a minor or e minor, keys that are well-suited to the electric guitar and bass and correspond to the two lowest open strings. Rock is clustered around keys with few accidentals
+The relation of major vs.\ minor modes is very skewed for blues and metal (predominantly minor) as well as country (predominantly major); the genres disco, pop, reggae, and rock have a more balanced distribution between modes. Jazz tracks tend to be clustered around flat keys which are favored by trumpet and saxophone players. The keys for country cluster around C-Maj with a tendency to sharp keys. The majority of metal tracks are in either a minor or e minor, keys that are well-suited to the electric guitar and bass and correspond to the two lowest open strings. Rock is clustered around keys with few accidentals.
 
 %Pieces from the blues are mostly in the keys of G, E and B-flat. 
 
-It is worth noting that Li and Chan presented another set of key annotations for the GTZAN data set \cite{li_genre_2011}. An examination of the two independent annotations reveals some disagreements between the two annotations: overall, about $85$ percent of the data is labeled identically. 
-%ICH VERSTEHE DIE ZAHLEN HIER NICHT: 67 + 119 IST DOCH MEHR ALS 15\%??%
-Of the differences where there was disagreement on whether one key was clearly identifiable or not, the majority were found in the Blues genre with 67 out 127 total disagreements of this type. If we consider only examples where both analyses agreed a modulation had \textit{not} occurred, there was a total of 119 disagreements. The most common differences were: major/relative-minor confusion (38), tonic/fifth confusion (35) and major/minor confusion (13).
+%It is worth noting that Li and Chan presented another set of key annotations for the GTZAN data set \cite{li_genre_2011}. An examination of the two independent annotations reveals some disagreements between the two annotations: overall, about $85$ percent of the data is labeled identically. 
+%%ICH VERSTEHE DIE ZAHLEN HIER NICHT: 67 + 119 IST DOCH MEHR ALS 15\%??%
+%Of the differences where there was disagreement on whether one key was clearly identifiable or not, the majority were found in the Blues genre with 67 out 127 total disagreements of this type. If we consider only examples where both analyses agreed a modulation had \textit{not} occurred, there was a total of 119 disagreements. The most common differences were: major/relative-minor confusion (38), tonic/fifth confusion (35) and major/minor confusion (13).
 %\begin{itemize}
     %\item   blues: $98$ vs.\ $31$ (Li) annotated tracks
     %\item   disco: $21$ differences between the two data sets
@@ -108,9 +246,9 @@ Of the differences where there was disagreement on whether one key was clearly i
 We extract the key profiles per file. We use the term key profile for the overall, tonic independent pitch chroma per file. The detailed extraction is explained below.
 
 \subsection{Pitch chroma}\label{subsec:pc_extract}
-The pitch chroma is a commonly used feature in the field of Music Information Retrieval (MIR), because it is a compact, robust, and mostly timbre-independent representation of the pitch content  \cite{muller_information_2007}. It is a twelve-dimensional histogram-like octave-independent vector showing the ``strength'' of the 12 semitone classes (C, C\#, D, ..., B). It is computed by converting the spectrum to semi-tone bands and summing the energy of all bands with the distance of an octave \cite{fujishima_realtime_1999}. 
-The overall pitch chroma per file is a single 12-dimensional vector that is computed by taking the median of all individual pitch chromas. 
+The pitch chroma is a commonly used feature in the field of (MIR) because it is a compact, robust, and mostly timbre-independent representation of the pitch content  \cite{muller_information_2007}. It is a $12$-dimensional histogram-like octave-independent vector showing the ``strength'' of the $12$ semitone classes (C, C\#, D, ..., B) and is computed by converting the spectrum to semi-tone bands and summing the energy of all bands with the distance of an octave \cite{fujishima_realtime_1999}. 
 The pitch chroma is extracted at a sample rate of \unit[10]{kHz} over a range of three octaves, starting from C at \unit[130.8]{Hz}. The FFT block size is 8192, the hop size is 4096.
+The overall pitch chroma per file is a single 12-dimensional vector that is computed by taking the median of all pitch chromas per block. 
 
  %Each track in the labeled collection was down-sampled to 10kHz and pitch chroma vectors were extracted block-wise over a three octave range, starting from C = 130.8 Hz. Pitch chroma were then normalized using the 1-norm:                     
 	 %equation?
@@ -118,17 +256,17 @@ The pitch chroma is extracted at a sample rate of \unit[10]{kHz} over a range of
 
 
 \subsection{Key profiles}\label{sec:featureset}
-We assume that the key profile of a song in the same mode (major or minor) should be similar between songs within one genre, but is shifted circularly to the song's tonic. Under this assumption, we can ``convert'' each pitch to a key-profile by applying a circular shift to make it tonic independent. In other words, the key profile is the tonic independent pitch distribution (e.g., the pitch profile of a song in A-Maj or a-min is circularly shifted by $9$ indices to the left so that the bin of pitch class A lands on the first index).
+We assume that the key profiles of songs within one genre that have the same mode (major or minor) should be similar, but shifted circularly to the songs' tonic. Under this assumption, each overall pitch chroma can be ``converted'' to a key-profile by applying a circular shift. In other words, the key profile is the tonic independent pitch distribution (e.g., the pitch chroma of a song in A-Maj or a-min is circularly shifted by $9$ indices to the left so that the bin of pitch class A lands on the first index).
 
 %A problem with using a pitch chroma approach is that the overall tonality of each song may dominate any between-genre differences; because the distribution of major and minor keys are not the same for each genre, songs might be classified according to their key using this method. For example pitch chroma extracted from minor tracks would be classified as Metal, since the averaged pitch chroma for Metal would be obtained by averaging pitch chroma extracted from predominantly minor tracks. This is an inherent problem in using pitch chroma as op-posed to more often used timbral features like MFCCs and in order to account for this we processed major and minor tracks separately. Another consideration revealed in the analysis of the data set is that the the key-labels are not uniformly distributed within each key. For example the majority of songs in the keys of A and E-minor are in the Rock and Metal genres. 
 
 \section{Key Profile Analysis}\label{keyprof}
 %In order to generate the key profiles for this overall analysis, we used the the KP1 key profiles.
-\subsection{Overall key profiles}
-Figure \ref{fig:OverallKeyProfiles} shows the overall key profiles in a box plot in comparison with other reported profiles. 
-While Krumhansl's ``Probe Tone Ratings'' \cite{krumhansl_cognitive_1990} are not really a key profile (derived from listening experiments on tonality) they have been frequently used in audio key detection. They seem to correlate well with key profiles (e.g., \cite{izmirli_template_2005}). 
+%\subsection{Overall key profiles}
+Figure \ref{fig:OverallKeyProfiles} shows the overall key profiles in a box plot in comparison with known profiles from the literature. 
+While Krumhansl's ``Probe Tone Ratings'' \cite{krumhansl_cognitive_1990} are not exactly a key profile (derived from listening experiments on tonality), they have been frequently used in audio key detection. They seem to correlate well with key profiles (compare \cite{izmirli_template_2005}). 
 Temperley's key profiles are extracted from symbolic data  rather than from audio \cite{temperley_bayesian_2004,temperley_pitch-class_2008}.
-\begin{figure*}[tb]
+\begin{figure*}[htb]
 \centering
     \includegraphics[scale=.2]{graph/allMajChroma+Krum+Temp}
     \includegraphics[scale=.2]{graph/allMinChroma+Krum+Temp}
@@ -136,7 +274,7 @@ Temperley's key profiles are extracted from symbolic data  rather than from audi
 	\label{fig:OverallKeyProfiles}
 \end{figure*}
 
-\subsection{Genre-specific key profiles}
+%\subsection{Genre-specific key profiles}
 The key profiles of the six most populated genres are plotted in Fig.~\ref{fig:SpecificKeyProfiles}.
 \begin{figure*}[tb]
 \centering
@@ -147,12 +285,11 @@ The key profiles of the six most populated genres are plotted in Fig.~\ref{fig:S
 	\caption{Major (left) and minor (right) key profiles for the six most populated genres, in comparison with the Krumhansl (red) and Temperley (blue) profiles. Major genres are country, pop, reggae (top left) and disco, jazz and rock (bottom left). Minor genres are blues, hip hop and pop (top right) and disco, metal and reggae (bottom right).}
 	\label{fig:SpecificKeyProfiles}
 \end{figure*}
+The major distribution exhibits mostly a similar pattern with prominent spikes at the tonic and the fifth. The Jazz key profile is one example that is noticeably different: it is rather flat compared to the distributions of other genre's. It is to be expected that Jazz shows a wider range of pitches and harmonies and has thus a more uniformly distributed key profile.
 
-The major distribution exhibits mostly a similar pattern with prominent spikes at the tonic and the fifth. The Jazz distribution is one example that is noticeably different: it is rather flat and more uniform than the distributions of other genre's. It is to be expected that Jazz shows a wider range of pitches and harmonies and thus a more uniform pitch class distribution.
+The key profiles for minor have, compared to the major profiles, less distinct minima for non-scale pitches; especially the Blues profile is ---~with the exception of tonic and fifth~--- basically uniformly distributed.
 
-The distributions for minor have, compared to the major distributions, less distinct minima for non-scale pitches; especially the Blues distribution is ---~with the exception of tonic and fifth~--- basically flat.
-
-\begin{table}[H]
+\begin{table}[!H]
 \centering
 \resizebox{\columnwidth}{!}{%
         \begin{tabular}{|c||>{\columncolor[gray]{0.8}}c|c|c|>{\columncolor[gray]{0.8}}c|c|>{\columncolor[gray]{0.8}}c|c|c|c||c|c|c|}
@@ -433,5 +570,67 @@ Overall, the results support the notion of using genre-independent profiles as i
 \end{table}   
 
 \bibliography{ChromaPaper}
-
 \end{document}
+
+
+
+
+
+% -----------------------------------------------
+% Template for ISMIR 2014
+% (based on earlier ISMIR templates)
+% -----------------------------------------------
+%
+%\documentclass{article}
+%\usepackage{ismir2014,amsmath,cite}
+%\usepackage{graphicx}
+%\usepackage{url}
+%\usepackage{units}
+%\usepackage{booktabs}
+%\usepackage{dcolumn}
+%\usepackage{colortbl}
+%\usepackage{microtype}
+%\usepackage{float}
+%
+%% Title.
+%% ------
+%\title{}
+%
+%% Single address
+%% To use with only one author or several with the same address
+%% ---------------
+%%\oneauthor
+%% {Names should be omitted for double-blind reviewing}
+%% {Affiliations should be omitted for double-blind reviewing}
+%
+%% Two addresses
+%% --------------
+%%\twoauthors
+%%  {First author} {School \\ Department}
+%%  {Second author} {Company \\ Address}
+%
+%% Three addresses
+%% --------------
+%\threeauthors
+  %{First author} {Affiliation1 \\ {\tt author1@ismir.edu}}
+  %{Second author} {\bf Retain these fake authors in\\\bf submission to preserve the formatting}
+  %{Third author} {Affiliation3 \\ {\tt author3@ismir.edu}}
+%
+%% Four addresses
+%% --------------
+%%\fourauthors
+%%  {First author} {Affiliation1 \\ {\tt author1@ismir.edu}}
+%%  {Second author}{Affiliation2 \\ {\tt author2@ismir.edu}}
+%%  {Third author} {Affiliation3 \\ {\tt author3@ismir.edu}}
+%%  {Fourth author} {Affiliation4 \\ {\tt author4@ismir.edu}}
+%
+%\begin{document}
+%%
+%\maketitle
+%%
+%\begin{abstract}
+%\end{abstract}
+%%
+%
+%
+%\end{document}
