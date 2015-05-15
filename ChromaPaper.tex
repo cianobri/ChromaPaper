@@ -216,8 +216,11 @@ In this paper we analyze the distributions of key profiles extracted from audio 
 
 \section{Data set}\label{sec:dataset}
 The data set used was the GTZAN collection.\footnote{\url{http://marsyas.info/downloads/datasets.html}} While this set is old and has obvious disadvantages \cite{sturm_analysis_2012}, it is a well-known, widely-used, and, last but not least, easily available set for genre classification tasks. It consists of a collection of $1000$ song excerpts equally divided into ten genres: Blues (\textit{B}), Classical, Rock (\textit{R}), Reggae (\textit{Rg}), Pop (\textit{P}), Metal (\textit{M}), Rock (\textit{R}), Jazz (\textit{J}), Country (\textit{C}) and Hip Hop (\textit{H}). 
-Key annotations for the tracks are publicly available.\footnote{\url{github.com/alexanderlerch/data_set}}
- Figure~\ref{tab:NumberOfAnnotatedDataSetEntries} gives an overview of the number of annotated files and their mode. The number of annotated files therefore reflects the number of unambiguously identifyable keys.
+Key annotations for the tracks are publicly available.\footnote{\url{AuthorsGitHub}}%github.com/alexanderlerch/data_set}}
+ %Figure~\ref{tab:NumberOfAnnotatedDataSetEntries} gives an overview of the number of annotated files and their mode. The number of annotated files therefore reflects the number of unambiguously identifyable keys.
+%For example, none of the excerpts from the Classical genre are annotated. 
+%Tracks for which the key could not be unambigiously identified were excluded, which includeed all examples in the Classical genre. ttfgds fsd fsd fs fsd fsd sdf  sdf dsf sdf sdf sd sdf dsf ds fs sdfs dfsd fds  sdf dsf sd fdsf 
+Tracks for which the key could not be unambigiously identified were excluded. The number of annotated files therefore reflects the number of unambiguously identifyable keys.
 For example, none of the excerpts from the Classical genre are annotated. 
 
 Figure \ref{fig:KeyDistributionPerGenre} gives a more detailed visualization of the key distribution per genre with the tonics sorted with respect to the circle of fifths and major modes (left) separated from minor modes (right). 
@@ -502,7 +505,7 @@ Still, the objective of this analysis was to investigate the separability of ton
 
 
 \section{Conclusion}
-We presented an analysis of key profiles for different genres and investigated inter-genre distances and separability with a number of methods, including distance measures, Multi-Dimensional Scaling, and classification. The results show that some genres may indeed have distinct key profiles, but overall, the similarities between key profiles seems to outweigh the genre differences. The classification results show modest improvements by using the shifted key profiles instead of the average pitch chroma, indicating the usefulness of the tonic-normalized pitch chroma. %These improvements, however, disappear when Major and Minor samples are not treated separately (which, in the case of classification, would be the normal case as the key is unknown). %Possible other reasons for the very slight accuracy improvements might be found in the data set (definition of genres, sample selection, size, other deficiencies), but in general we believe that the results make sense and are conceivable.
+We presented an analysis of key profiles for different genres and investigated inter-genre distances and separability using distance measures and classification. The results show that some genres may indeed have distinct key profiles, but overall, the similarities between key profiles seems to outweigh the genre differences. The classification results show modest improvements by using the shifted key profiles instead of the average pitch chroma, indicating the usefulness of the tonic-normalized pitch chroma. %These improvements, however, disappear when Major and Minor samples are not treated separately (which, in the case of classification, would be the normal case as the key is unknown). %Possible other reasons for the very slight accuracy improvements might be found in the data set (definition of genres, sample selection, size, other deficiencies), but in general we believe that the results make sense and are conceivable.
 %
 Overall, the results support the notion of using genre-independent profiles as inter-genre differences are small and in a similar range as inter-song differences between profiles. 
 
