@@ -17,6 +17,7 @@
 \usepackage{float}
 \restylefloat{table}
 \usepackage{caption}
+\usepackage{microtype}
 
 %%%%%%%%%%%%%%%%%%%%%%%% Some useful packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%% See related documentation %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -204,7 +205,7 @@
 The most common approaches to the automatic recognition
 of musical key are template-based, i.e., an extracted pitch
 chroma vector is compared to a template key profile in order
-to identify the most similar key. General as well as domainspecific templates have been used in the past, but to the authors’ best knowledge there has been no study that evaluated
+to identify the most similar key. General as well as domain-specific templates have been used in the past, but to the authors’ best knowledge there has been no study that evaluated
 genre-specific key profiles extracted from the audio signal. We
 investigate the pitch chroma distributions for 9 different genres, their distances, and the degree to which these genres can
 be identified using these distributions when utilizing different
@@ -222,7 +223,7 @@ diatonic models \cite{izmirli_template_2005}, extraction from MIDI data \cite{te
 of (pitch chroma based) key profiles extracted from different
 musical genres. The similarity of genre-specific key profiles
 is measured directly by computing inter-genre distances in
-Sect. 4 and indirectly by applying an SVM classifier for testing genre separability through key profiles (Sect. 5). The goal
+Sect.~\ref{sec:keyprof} and indirectly by applying an SVM classifier for testing genre separability through key profiles (Sect.~\ref{sec:classification}). The goal
 of this work is to investigate (i) how pitch chroma are distributed within each genre and (ii) the extent to which musical
 genres can be distinguished using only the tonal information
 contained in their pitch chroma profiles.
@@ -235,10 +236,10 @@ Key annotations for the tracks are publicly available.\footnote{\url{https://git
  %Figure~\ref{tab:NumberOfAnnotatedDataSetEntries} gives an overview of the number of annotated files and their mode. The number of annotated files therefore reflects the number of unambiguously identifyable keys.
 %For example, none of the excerpts from the Classical genre are annotated. 
 %Tracks for which the key could not be unambigiously identified were excluded, which includeed all examples in the Classical genre. ttfgds fsd fsd fs fsd fsd sdf  sdf dsf sdf sdf sd sdf dsf ds fs sdfs dfsd fds  sdf dsf sd fdsf 
-Tracks for which the key could not be unambigiously identified were excluded. The number of annotated files therefore reflects the number of unambiguously identifyable keys.
+Tracks for which the key could not be unambiguously identified were excluded. The number of annotated files therefore reflects the number of unambiguously identifiable keys.
 For example, none of the excerpts from the Classical genre are annotated. 
 
-Figure \ref{fig:KeyDistributionPerGenre} gives a more detailed visualization of the key distribution per genre with the tonics sorted with respect to the circle of fifths and major modes (left) separated from minor modes (right). 
+Figure \ref{fig:KeyDistributionPerGenre} gives a detailed visualization of the modes (top) and key distribution (bottom) per genre. The tonics are sorted with respect to the circle of fifths (major modes are indicated in upper case letters and minor modes in lower case). 
 %The distribution of keys in each genre proved unsurprising.
 The relation of major vs.\ minor modes is very skewed for blues and metal (predominantly minor) as well as country (predominantly major); the genres disco, pop, reggae, and rock have a more balanced distribution between modes. Jazz tracks tend to be clustered around flat keys which are favored by trumpet and saxophone players. The keys for country cluster around C-Maj with a tendency to sharp keys. The majority of metal tracks are in either a minor or e minor, keys well-suited to the electric guitar and bass (corresponding to the two lowest open strings).
 
@@ -256,18 +257,18 @@ The relation of major vs.\ minor modes is very skewed for blues and metal (predo
 \section{Feature extraction}\label{sec:pitch_chroma}
 
 %\subsection{Pitch chroma}\label{subsec:pc_extract}
-The \textit{pitch chroma} is a commonly used feature in the field of MIR  because it is a compact, robust, and mostly timbre-independent representation of the pitch content  \cite{muller_information_2007}. It is a $12$-dimensional histogram-like octave-independent vector showing the ``strength'' of the $12$ semitone classes (C, C\#, D, ..., B) and is computed by converting the spectrum to semi-tone bands and summing the energy of all bands with the distance of an octave \cite{fujishima_realtime_1999}. 
-The pitch chroma is extracted at a sample rate of \unit[10]{kHz} over a range of three octaves, starting from C at \unit[130.8]{Hz}. The FFT block size is 8192, the hop size is 4096.
+The \textit{pitch chroma} is a commonly used feature in the field of MIR  because it is a compact, robust, and mostly timbre-independent representation of the pitch content  \cite{muller_information_2007}. It is a $12$-dimensional histogram-like octave-independent vector showing the ``strength'' of the $12$ semitone classes (C, C\#, D, ..., B) and is usually computed by converting the spectrum to semi-tone bands and summing the energy of all bands with the distance of an octave \cite{fujishima_realtime_1999}. 
+Here, the pitch chroma is extracted at a sample rate of \unit[10]{kHz} over a range of three octaves, starting from C at \unit[130.8]{Hz}. The FFT block size is 8192, the hop size is 4096.
 The overall pitch chroma per file is a single 12-dimensional vector that is computed by taking the median of all pitch chromas per block. 
 
  %Each track in the labeled collection was down-sampled to 10kHz and pitch chroma vectors were extracted block-wise over a three octave range, starting from C = 130.8 Hz. Pitch chroma were then normalized using the 1-norm:                     
 	 %equation?
 %After extracting pitch chroma for each block we can also average them over whole tracks to obtain an “averaged pitch chroma” for each track, sometimes called a Pitch Histogram [**ref]. After averaging using the median for each chroma-bin each song is then represented by a single 12-dimensional chroma vector.
 
-\begin{figure}[tb]\label{tab:NumberOfAnnotatedDataSetEntries}
-    \includegraphics[scale=.2]{graph/annotated}
-	\caption{Per genre major/minor distributions and number of annotated files}
-	\label{fig:confPC+MFCC}
+\begin{figure}[tb]
+    \vspace{-3mm}\includegraphics[scale=.22]{graph/annotated}
+    \includegraphics[scale=.22]{graph/key_distribution_colour_legend}
+    \caption{GTZAN dataset key analysis: major/minor distributions and number of annotated files (top) and key distributions per genre (bottom)}\label{fig:KeyDistributionPerGenre}
 \end{figure}
 
 
@@ -276,13 +277,13 @@ The term \textit{key profile} is used for the overall, tonic independent pitch c
 
 %A problem with using a pitch chroma approach is that the overall tonality of each song may dominate any between-genre differences; because the distribution of major and minor keys are not the same for each genre, songs might be classified according to their key using this method. For example pitch chroma extracted from minor tracks would be classified as Metal, since the averaged pitch chroma for Metal would be obtained by averaging pitch chroma extracted from predominantly minor tracks. This is an inherent problem in using pitch chroma as op-posed to more often used timbral features like MFCCs and in order to account for this we processed major and minor tracks separately. Another consideration revealed in the analysis of the data set is that the the key-labels are not uniformly distributed within each key. For example the majority of songs in the keys of A and E-minor are in the Rock and Metal genres. 
 
-\section{Key Profile Analysis}\label{keyprof}
+\section{Key Profile Analysis}\label{sec:keyprof}
 %In order to generate the key profiles for this overall analysis, we used the the KP1 key profiles.
 %\subsection{Overall key profiles}
 Figure \ref{fig:OverallKeyProfiles} shows the overall key profiles in a box plot in comparison with known profiles from the literature. 
 While Krum\-hansl's ``Probe Tone Ratings'' \cite{krumhansl_cognitive_1990} are not exactly a key profile (derived from listening experiments on tonality), they correlate well with key profiles (compare \cite{izmirli_template_2005}). 
 Temperley's key profiles are extracted from symbolic data  rather than from audio \cite{temperley_bayesian_2004,temperley_pitch-class_2008}.
-\begin{figure*}[htb]\setcounter{figure}{2}
+\begin{figure*}[htb]
 \centering
     \includegraphics[scale=.2]{graph/allMajChroma+Krum+Temp}
     \includegraphics[scale=.2]{graph/allMinChroma+Krum+Temp}
@@ -292,7 +293,7 @@ Temperley's key profiles are extracted from symbolic data  rather than from audi
 
 %\subsection{Genre-specific key profiles}
 The key profiles of the six most populated genres are plotted in Fig.~\ref{fig:SpecificKeyProfiles}.
-\begin{figure*}[tb]\setcounter{figure}{3}
+\begin{figure*}[tb]
 \centering
     \includegraphics[scale=.2]{graph/boxPlotsMajCPR+Krum+Temp}
     \includegraphics[scale=.2]{graph/boxPlotsMinBHP+Krum+Temp}
@@ -321,19 +322,14 @@ With respect to major key profile distances, the most similar genres are Rock an
 
 
 
-\begin{figure}\setcounter{figure}{1}
-    \includegraphics[scale=.2]{graph/key_distribution_colour_legend}
-	\caption{Key distribution per genre}
-	\label{fig:KeyDistributionPerGenre}
-\end{figure}
 
 
 \section{Classification}\label{sec:classification}
-The distance results presented above indicate what genres are most similar and dissimilar (with respect to their key profiles). In order to drectly investigate the separability in terms of the key profiles, the extracted key profiles are used for the task of musical genre classification --  a well studied field in MIR \cite{fu_survey_2011}. The most widely used features in this area are timbre features such as Mel Frequency Cepstral Coefficients (MFCC). MFCC pick up on instrumental and timbral differences between genres, although they are not totally independent of harmonic and tonal properties \cite{li_genre_2011}.
-A linear SVM classifier was trained using extraceted the key profiles. For comparison a linear SVM was also trained using $24$-dimensional timbre features vector comprising the mean and standard deviation of the first $12$ MFCCs. %The MFCC were calculated using a freely available MATLAB implementation.\footnote{\url{http://labrosa.ee.columbia.edu/matlab/rastamat/}}
+The distance results presented above indicate what genres are most similar and dissimilar (with respect to their key profiles). In order to drectly investigate the separability in terms of the key profiles, the extracted key profiles are used for the task of musical genre classification~---~a well studied field in MIR \cite{fu_survey_2011}. The most widely used features in this area are timbre features such as Mel Frequency Cepstral Coefficients (MFCC). MFCC pick up on instrumental and timbral differences between genres, although they are not totally independent of harmonic and tonal properties \cite{li_genre_2011}.
+A linear SVM classifier was trained using extracted the key profiles. For comparison a linear SVM was also trained using $24$-dimensional timbre features vector comprising the mean and standard deviation of the first $12$ MFCCs. %The MFCC were calculated using a freely available MATLAB implementation.\footnote{\url{http://labrosa.ee.columbia.edu/matlab/rastamat/}}
 We used libSVM  \cite{chang_libsvm:_2011} and picked the SVM parameters with a grid search and 5-fold cross validation on a separate stratified split of the data. The classification is carried out for the $9$ classes described above.
 
-\begin{table}[H]
+\begin{table}[t]
 \centering
 \resizebox{\columnwidth}{!}{%
         \begin{tabular}{|c||c|>{\columncolor[gray]{0.8}}c|c|c|>{\columncolor[gray]{0.8}}c|c|c|c|c||c|c|c|}
@@ -369,11 +365,11 @@ We used libSVM  \cite{chang_libsvm:_2011} and picked the SVM parameters with a g
         \end{tabular}%
 }
    
-	\caption{Genre Distances for Minor tracks using L1-norm}
+	\caption{Genre distances for minor tracks using L1-norm}
 	\label{tab:GenreDistancesMinor}
 \end{table}
 
-\begin{table}[H]
+\begin{table}[t]
 \centering
 \resizebox{\columnwidth}{!}{%
         \begin{tabular}{|c||>{\columncolor[gray]{0.8}}c|c|c|>{\columncolor[gray]{0.8}}c|c|>{\columncolor[gray]{0.8}}c|c|c|c||c|c|c|}
@@ -412,7 +408,7 @@ We used libSVM  \cite{chang_libsvm:_2011} and picked the SVM parameters with a g
 }
     
    
-	\caption{Genre Distances for Major tracks using L1-norm}
+	\caption{Genre distances for major tracks using L1-norm}
 	\label{tab:GenreDistancesMajor}
 \end{table}
 
@@ -434,14 +430,15 @@ Three classification scenarios have been evaluated:
     \item   the whole key-labeled data set without any differentiation between major and minor. 
  \end{inparaenum}   
 All scenarios were carried out with the individual key profile features as well as with the combination of MFCCs and these features. The presented results are computed with 10-fold cross validation.
-\subsection{Results and discussion}
+
+\subsection{Results and discussion}\label{sec:results}
 Table~\ref{tab:accuracyPC} summarizes the results of the SVM classification for the different key profile computations and their performance when combined with the MFCCs. 
 
-A minimum result is the output of a hypothetical classifier that simply predicts the majority class (ZeroR). The classification accuracy for this minimal classifier for our data set would be 26\% for Major, 20\% for Minor, and 13\% for the overall data set. The accuracy of a random pick is approximately 11\%. The results of Tzanetakis and Cook  reported, a 23\% classification accuracy  for the complete set with $10$ classes (i.e., including samples with ambiguous tonality) using a GMM 
-
+A minimum result is the output of a hypothetical classifier that simply predicts the majority class (ZeroR). The classification accuracy for this minimal classifier for our data set would be 26\% for major, 20\% for minor, and 13\% for the overall data set. The accuracy of a random pick is approximately 11\%. Tzanetakis and Cook reported a 23\% classification accuracy  for the complete set with $10$ classes (i.e., including samples with ambiguous tonality) using a GMM 
+%
 %Zero-R classifier predicts 26\% accuracy for major profiles, 20\% for minor and approximately 11\% for random guessing.
-
-\begin{table}[H]
+%
+\begin{table}[t]
 \begin{center}
 \resizebox{\columnwidth}{!}{%
     \begin{tabular}{|l|l|l|l|}
@@ -473,7 +470,7 @@ A minimum result is the output of a hypothetical classifier that simply predicts
     \label{tab:accuracyPC}
   \end{center}
 \end{table}
-
+%
 classifier with a set of simple pitch histogram features and a 47\% accuracy for 10 MFCCs \cite{tzanetakis_musical_2002}. These numbers may serve as a base-line comparison. 
 %As with any classification task, the feature used to summarize tracks is an important concern. Previous work in this area has shown that timbral features, particularly Mel Frequency Spectrum Coefficients, are especially suited to the task of predicting genre. While MFCC are suited to picking up on instrumental and timbral difference between genres, some work has shown that they are not totally independent of harmonic or tonal information \cite{li_genre_2011}. Here we investigate the extent to which tonal information can be used to discern genres y examining the distributions of pitch chroma within each of 9 different genres. First we examine the overall distribution of keys for each genre. Next different methods for transposing pitch chroma to a key-independent representation are introduced and we look at the chroma distributions using chroma box plots, inter-genre distance and mulch-dimensional scaling. In the final section we test the degree to which the chroma distribution separate genres by performing classification with an SVM using chroma and combined chroma/MFCC features.
 
@@ -484,11 +481,11 @@ classifier with a set of simple pitch histogram features and a 47\% accuracy for
 %10-fold cross validation  accuracy was calculated using the raw pitch chroma, max-shifted key profile, the Fourier pitch chroma and the key profile shifted according to the ground truth. We compare the results to a classifier based on a set of MFCC features as well as a combination of MFCC and key profile features. MFCC features were calculated according to REFXXX: WHAT COMPUTATION DID YOU USE?. The mean and standard deviation of $12$ MFCCs form a $24$-dimensional timbre feature vector. %as follows: for each block we compute 12 MFCC coefficients, then take the mean and standard deviation over the whole song. These features are then concatenated to form a 24 dimensional feature vector.
 
 %Unsurprisingly, the 
-MFCCs vastly outperformed the key profile features alone. Although not random, the overall classification performance given the key profiles is mediocre. While the key profiles provide genre-specific information, there are apparently still a lot of inter-genre similarities. The combined feature set results in a slight performance increase in overall accuracy of around 3-4\% indicating that the pitch chroma distributions contain some genre-relevant information not covered by the MFCCs. 
+MFCCs vastly outperformed the key profile features alone. Although not random, the overall classification performance given the key profiles is mediocre. While the key profiles provide genre-specific information, there are apparently still a lot of inter-genre similarities. The combined feature set results in a slight performance increase in overall accuracy of around 3--4\%, indicating that the pitch chroma distributions contain some genre-relevant information not covered by the MFCCs. 
 
-For the Major and Minor subsets, we can observe a slight performance increase for the shifted profiles (most notably the KP3 profile, shifted by the ground truth). That indicates that when combining Major and Minor keys in one data set, the tonic information is actually more important for classification than the mode. It also indicates that overall, the distances between Major and Minor profiles are larger than the distances between genre profiles. 
+For the major and minor subsets, we can observe a slight performance increase for the shifted profiles (most notably the KP3 profile, shifted by the ground truth). That indicates that when combining major and minor keys in one data set, the tonic information is actually more important for classification than the mode. It also indicates that overall, the distances between major and minor profiles are larger than the distances between genre profiles. 
 
-It should be noted that neither the shifting by ground truth data nor the split of the data set into Major and Minor modes represent a realistic classification scenario, since this data is not available (or could be only by estimating the key before classifying, adding an additional source of error to the analysis). 
+It should be noted that neither the shifting by ground truth data nor the split of the data set into major and minor modes represent a realistic classification scenario, since this data is not available (or could be only by estimating the key before classifying, adding an additional source of error to the analysis). 
 Still, the objective of this analysis was to investigate the separability of tonic independent key profiles; we can at least observe some inter-genre separability.
 
 
@@ -520,8 +517,8 @@ Still, the objective of this analysis was to investigate the separability of ton
 
 \section{Conclusion}
 We presented an analysis of key profiles for different genres and investigated inter-genre distances and separability using distance measures and classification. The results show that some genres may indeed have distinct key profiles, but overall, the similarities between key profiles seems to outweigh the genre differences. The classification results show modest improvements by using the shifted key profiles instead of the average pitch chroma, indicating the usefulness of the tonic-normalized pitch chroma. %These improvements, however, disappear when Major and Minor samples are not treated separately (which, in the case of classification, would be the normal case as the key is unknown). %Possible other reasons for the very slight accuracy improvements might be found in the data set (definition of genres, sample selection, size, other deficiencies), but in general we believe that the results make sense and are conceivable.
-%
-Overall, the results support the notion of using genre-independent profiles as inter-genre differences are small and in a similar range as inter-song differences between profiles. 
+
+Overall, the results support the notion of using genre-indepen\-dent profiles as inter-genre differences are small and in a similar range as inter-song differences between profiles. 
 
 %\begin{table}[H]
 %\begin{center}
